@@ -89,7 +89,7 @@ const CopyCalculator: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h1>Генератор имени файла для печати</h1>
+      <h1 className={styles.title}>Генератор имени файла для печати</h1>
 
       <CalculationResult
         totalCopies={totalCopies}
