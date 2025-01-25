@@ -49,6 +49,25 @@ const CopyCalculator: React.FC = () => {
     );
   };
 
+  const formatVariantString = (variant: Variant, extraCopies: number) => {
+    const remainingItems = Math.floor(
+      calculateRemainingItems(
+        variant.totalQuantity,
+        variant.itemsPerSheet / Math.max(variant.numLabels, 1),
+        extraCopies
+      )
+    );
+
+    return `(${variant.numLabels}x${variant.totalQuantity}+${variant.numLabels}x${remainingItems})`;
+  };
+
+  const dynamicString =
+    variants.length > 1 || variants[0].numLabels > 1
+      ? variants
+        .map((variant) => formatVariantString(variant, extraCopies))
+        .join("_+_") + `_${totalCopies} copies.job`
+      : `(${variants[0].totalQuantity}+${remainingItems})_${totalCopies} copies.job`;
+
   useEffect(() => {
     const totalQuantity = variants.reduce(
       (sum, variant) => sum + variant.totalQuantity * variant.numLabels,
@@ -66,22 +85,6 @@ const CopyCalculator: React.FC = () => {
       calculateRemainingItems(totalQuantity, itemsPerSheet, extraCopies)
     );
   }, [variants, extraCopies]);
-
-  const dynamicString =
-    variants.length > 1 || variants[0].numLabels > 1
-      ? variants
-          .map(
-            (variant) =>
-              `(${variant.numLabels}x${variant.totalQuantity}+${
-                variant.numLabels
-              }x${calculateRemainingItems(
-                variant.totalQuantity,
-                Math.floor(variant.itemsPerSheet / variant.numLabels),
-                extraCopies
-              )})`
-          )
-          .join("_+_") + `_${totalCopies} copies.job`
-      : `(${variants[0].totalQuantity}+${remainingItems})_${totalCopies} copies.job`;
 
   return (
     <div className={styles.container}>
