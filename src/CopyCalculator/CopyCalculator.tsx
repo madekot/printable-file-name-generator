@@ -3,6 +3,7 @@ import Button from "../Button/Button";
 import CalculationResult from "../CalculationResult/CalculationResult";
 import InputField from "../InputField/InputField";
 import VariantForm from "../VariantForm/VariantForm";
+import { Logo } from '../Logo/Logo';
 import styles from "./CopyCalculator.module.scss";
 import {
   calculateRemainingItems,
@@ -137,6 +138,8 @@ const CopyCalculator: React.FC = () => {
           </Button>
         </div>
       </div>
+
+      <Logo className={styles.logo} />
     </div>
   );
 };
