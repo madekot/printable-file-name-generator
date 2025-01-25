@@ -3,7 +3,7 @@ import Button from "../Button/Button";
 import CalculationResult from "../CalculationResult/CalculationResult";
 import InputField from "../InputField/InputField";
 import VariantForm from "../VariantForm/VariantForm";
-import { Logo } from '../Logo/Logo';
+import { Logo } from "../Logo/Logo";
 import styles from "./CopyCalculator.module.scss";
 import {
   calculateRemainingItems,
@@ -65,8 +65,8 @@ const CopyCalculator: React.FC = () => {
   const dynamicString =
     variants.length > 1 || variants[0].numLabels > 1
       ? variants
-        .map((variant) => formatVariantString(variant, extraCopies))
-        .join("_+_") + `_${totalCopies} copies.job`
+          .map((variant) => formatVariantString(variant, extraCopies))
+          .join("_+_") + `_${totalCopies} copies.job`
       : `(${variants[0].totalQuantity}+${remainingItems})_${totalCopies} copies.job`;
 
   useEffect(() => {
