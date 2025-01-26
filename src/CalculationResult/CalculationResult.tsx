@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "../Button/Button";
+import ButtonAddVariant from "../ButtonAddVariant/ButtonAddVariant";
 import styles from "./CalculationResult.module.scss";
 
 interface CalculationResultProps {
@@ -7,6 +8,7 @@ interface CalculationResultProps {
   remainingItems: number;
   dynamicString: string;
   onCopy: () => void;
+  addVariant: () => void;
 }
 
 const CalculationResult: React.FC<CalculationResultProps> = ({
@@ -14,6 +16,7 @@ const CalculationResult: React.FC<CalculationResultProps> = ({
   remainingItems,
   dynamicString,
   onCopy,
+  addVariant,
 }) => {
   return (
     <div className={styles.result}>
@@ -32,6 +35,7 @@ const CalculationResult: React.FC<CalculationResultProps> = ({
         <Button onClick={onCopy} className={styles.copyBtn} variant="green">
           Копировать имя
         </Button>
+        <ButtonAddVariant addVariant={addVariant} />
       </div>
     </div>
   );

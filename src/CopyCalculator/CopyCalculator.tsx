@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Button from "../Button/Button";
 import CalculationResult from "../CalculationResult/CalculationResult";
 import InputField from "../InputField/InputField";
 import VariantForm from "../VariantForm/VariantForm";
@@ -89,13 +88,14 @@ const CopyCalculator: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Генератор имени файла для печати</h1>
+      <h1 className={styles.title}>Генератор имени файла для&nbsp;печати</h1>
 
       <CalculationResult
         totalCopies={totalCopies}
         remainingItems={remainingItems}
         dynamicString={dynamicString}
         onCopy={() => copyToClipboard(dynamicString)}
+        addVariant={addVariant}
       />
 
       <div className={styles.varintsBox}>
@@ -113,14 +113,14 @@ const CopyCalculator: React.FC = () => {
           </form>
         </div>
         <div className={styles.varints}>
-          {variants.map((variant, index) => (
+          {[...variants].reverse().map((variant, index) => (
             <VariantForm
               key={variant.id}
               totalQuantity={variant.totalQuantity}
               itemsPerSheet={variant.itemsPerSheet}
               numLabels={variant.numLabels}
               disabled={index === 0}
-              counterVariant={index + 1}
+              counterVariant={variants.length - index}
               onDelete={() => removeVariant(variant.id)}
               onTotalQuantityChange={(value) =>
                 updateVariant(variant.id, "totalQuantity", value)
@@ -133,9 +133,6 @@ const CopyCalculator: React.FC = () => {
               }
             />
           ))}
-          <Button className={styles.btnAdd} onClick={addVariant}>
-            Добавить вариант
-          </Button>
         </div>
       </div>
 
