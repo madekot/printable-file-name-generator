@@ -4,18 +4,20 @@ import styles from "./InputField.module.scss";
 
 interface InputFieldProps extends React.HTMLProps<HTMLDivElement> {
   label: string;
-  value: number;
+  value?: number | string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   min?: number;
   type?: string;
+  placeholder?: string;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
   label,
   value,
   onChange,
-  min = 1,
-  type = "number",
+  min,
+  type,
+  placeholder,
   className,
   ...restProps
 }) => {
@@ -23,6 +25,7 @@ const InputField: React.FC<InputFieldProps> = ({
     <div className={clsx(styles.inputField, className)} {...restProps}>
       <label className={styles.label}>{label}</label>
       <input
+        placeholder={placeholder}
         type={type}
         value={value}
         min={min}

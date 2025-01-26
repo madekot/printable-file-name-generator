@@ -3,6 +3,8 @@ import Button from "../Button/Button";
 import InputField from "../InputField/InputField";
 import styles from "./VariantForm.module.scss";
 
+const MIN_VALUE = 1;
+
 interface VariantFormProps {
   totalQuantity: number;
   itemsPerSheet: number;
@@ -14,6 +16,9 @@ interface VariantFormProps {
   onNumLabelsChange: (value: number) => void;
   onDelete: () => void;
 }
+
+const getDisplayValue = (value: number) =>
+  value <= MIN_VALUE ? undefined : value;
 
 const VariantForm: React.FC<VariantFormProps> = ({
   totalQuantity,
@@ -34,29 +39,35 @@ const VariantForm: React.FC<VariantFormProps> = ({
           <InputField
             className={styles.input}
             label="Тираж варианта"
-            value={totalQuantity}
+            value={getDisplayValue(totalQuantity)}
+            placeholder={String(totalQuantity)}
+            type="number"
             onChange={(e) =>
-              onTotalQuantityChange(Math.max(Number(e.target.value), 1))
+              onTotalQuantityChange(Math.max(Number(e.target.value), MIN_VALUE))
             }
-            min={1}
+            min={MIN_VALUE}
           />
           <InputField
             className={styles.input}
             label="Изделий варианта на&nbsp;листе:"
-            value={itemsPerSheet}
+            value={getDisplayValue(itemsPerSheet)}
+            placeholder={String(itemsPerSheet)}
+            type="number"
             onChange={(e) =>
-              onItemsPerSheetChange(Math.max(Number(e.target.value), 1))
+              onItemsPerSheetChange(Math.max(Number(e.target.value), MIN_VALUE))
             }
-            min={1}
+            min={MIN_VALUE}
           />
           <InputField
             className={styles.input}
             label="Одинаковых видов:"
-            value={numLabels}
+            value={getDisplayValue(numLabels)}
+            placeholder={String(numLabels)}
+            type="number"
             onChange={(e) =>
-              onNumLabelsChange(Math.max(Number(e.target.value), 1))
+              onNumLabelsChange(Math.max(Number(e.target.value), MIN_VALUE))
             }
-            min={1}
+            min={MIN_VALUE}
           />
         </div>
         <div className={styles.buttonGroup}>

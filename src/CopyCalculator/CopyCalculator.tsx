@@ -104,7 +104,9 @@ const CopyCalculator: React.FC = () => {
           <form className={styles.column}>
             <InputField
               label="Приладка:"
-              value={extraCopies}
+              value={extraCopies <= 0 ? undefined : extraCopies}
+              placeholder={String(extraCopies)}
+              type="number"
               onChange={(e) =>
                 setExtraCopies(Math.max(Number(e.target.value), 0))
               }
