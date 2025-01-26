@@ -88,7 +88,10 @@ const CopyCalculator: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Генератор имени файла для&nbsp;печати</h1>
+      <div className={styles.header}>
+        <h1 className={styles.title}>Генератор имени файла для&nbsp;печати</h1>
+        <Logo className={styles.logo} />
+      </div>
 
       <CalculationResult
         totalCopies={totalCopies}
@@ -98,22 +101,23 @@ const CopyCalculator: React.FC = () => {
         addVariant={addVariant}
       />
 
+      <div className={styles.headerBox}>
+        <b className={styles.varintsTitle}>Печатный лист</b>
+        <form className={styles.column}>
+          <InputField
+            label="Приладка:"
+            value={extraCopies <= 0 ? undefined : extraCopies}
+            placeholder={String(extraCopies)}
+            type="number"
+            onChange={(e) =>
+              setExtraCopies(Math.max(Number(e.target.value), 0))
+            }
+            min={0}
+          />
+        </form>
+      </div>
+
       <div className={styles.varintsBox}>
-        <div className={styles.headerBox}>
-          <b className={styles.varintsTitle}>Печатный лист</b>
-          <form className={styles.column}>
-            <InputField
-              label="Приладка:"
-              value={extraCopies <= 0 ? undefined : extraCopies}
-              placeholder={String(extraCopies)}
-              type="number"
-              onChange={(e) =>
-                setExtraCopies(Math.max(Number(e.target.value), 0))
-              }
-              min={0}
-            />
-          </form>
-        </div>
         <div className={styles.varints}>
           {[...variants].reverse().map((variant, index) => (
             <VariantForm
@@ -137,8 +141,6 @@ const CopyCalculator: React.FC = () => {
           ))}
         </div>
       </div>
-
-      <Logo className={styles.logo} />
     </div>
   );
 };
