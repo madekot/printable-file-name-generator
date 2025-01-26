@@ -121,7 +121,7 @@ const CopyCalculator: React.FC = () => {
               totalQuantity={variant.totalQuantity}
               itemsPerSheet={variant.itemsPerSheet}
               numLabels={variant.numLabels}
-              disabled={index === 0}
+              disabled={variants.length === 1}
               counterVariant={variants.length - index}
               onDelete={() => removeVariant(variant.id)}
               onTotalQuantityChange={(value) =>
