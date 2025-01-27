@@ -70,11 +70,11 @@ const CopyCalculator: React.FC = () => {
 
   useEffect(() => {
     const totalQuantity = variants.reduce(
-      (sum, variant) => sum + variant.totalQuantity,
+      (sum, variant) => sum + variant.totalQuantity * variant.numLabels,
       0
     );
     const itemsPerSheet = variants.reduce(
-      (sum, variant) => sum + variant.itemsPerSheet,
+      (sum, variant) => sum + variant.itemsPerSheet * variant.numLabels,
       0
     );
 
