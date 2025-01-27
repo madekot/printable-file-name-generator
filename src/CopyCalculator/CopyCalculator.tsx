@@ -102,7 +102,7 @@ const CopyCalculator: React.FC = () => {
       />
 
       <div className={styles.headerBox}>
-        <b className={styles.varintsTitle}>Печатный лист</b>
+        <b className={styles.varintsTitle}>Варианты на печатном листе</b>
         <form className={styles.column}>
           <InputField
             label="Приладка:"
