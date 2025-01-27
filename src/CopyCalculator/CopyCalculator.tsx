@@ -53,7 +53,7 @@ const CopyCalculator: React.FC = () => {
     const remainingItems = Math.floor(
       calculateRemainingItems(
         variant.totalQuantity,
-        variant.itemsPerSheet / Math.max(variant.numLabels, 1),
+        variant.itemsPerSheet,
         extraCopies
       )
     );
