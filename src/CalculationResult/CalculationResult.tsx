@@ -2,6 +2,7 @@ import React from "react";
 import Button from "../Button/Button";
 import ButtonAddVariant from "../ButtonAddVariant/ButtonAddVariant";
 import styles from "./CalculationResult.module.scss";
+import InputField from "../InputField/InputField";
 
 interface CalculationResultProps {
   totalCopies: number;
@@ -21,7 +22,7 @@ const CalculationResult: React.FC<CalculationResultProps> = ({
   return (
     <div className={styles.result}>
       <div className={styles.column}>
-        <div className={""}>
+        <div className={styles.header}>
           <div className={styles.info}>
             <p>
               Копий в печать: <span>{totalCopies}</span>
@@ -30,8 +31,21 @@ const CalculationResult: React.FC<CalculationResultProps> = ({
               Изделий в плюс: <span>{remainingItems}</span>
             </p>
           </div>
+          <div className={styles.fieldsCol}>
+            <InputField
+              label={"Конец строки"}
+              placeholder={" copies.job"}
+              onChange={() => {}}
+            />
+            <InputField
+              label={"Разделитель вариантов"}
+              placeholder={")_+_("}
+              onChange={() => {}}
+            />
+          </div>
           <b className={styles.dynamicString}>{dynamicString}</b>
         </div>
+
         <Button onClick={onCopy} className={styles.copyBtn} variant="green">
           Копировать имя
         </Button>

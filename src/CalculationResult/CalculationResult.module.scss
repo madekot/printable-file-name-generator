@@ -19,14 +19,25 @@
   gap: 20px;
 }
 
-.info {
-  margin-bottom: 20px;
+.fieldsCol {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .dynamicString {
   display: flex;
+  width: 100%;
   min-height: 60px;
   font-size: 20px;
   line-height: 30px;
   word-break: break-word;
+}
+
+.header {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
