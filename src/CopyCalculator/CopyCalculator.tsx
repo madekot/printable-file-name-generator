@@ -77,8 +77,8 @@ const CopyCalculator: React.FC = () => {
     variants.length > 1 || variants[0].numLabels > 1
       ? variants
           .map((variant) => formatVariantString(variant, maxCopies))
-          .join("_+_") + `_${maxCopies} copies.job`
-      : `(${variants[0].totalQuantity}+${remainingItems})_${maxCopies} copies.job`;
+          .join("_+_") + `_${maxCopies} copies`
+      : `(${variants[0].totalQuantity}+${remainingItems})_${maxCopies} copies`;
 
   useEffect(() => {
     setMaxCopies(getMaxCopies());
