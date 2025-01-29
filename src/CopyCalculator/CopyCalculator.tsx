@@ -23,13 +23,18 @@ const CopyCalculator: React.FC = () => {
   ]);
   const [extraCopies, setExtraCopies] = useState<number>(0);
   const [remainingItems, setRemainingItems] = useState<number>(0);
-  const [maxCopies, setMaxCopies] = useState<number>(0)
+  const [maxCopies, setMaxCopies] = useState<number>(0);
 
-  const getMaxCopies = () => Math.max(
-    ...variants.map(variant => 
-      calculateTotalCopies(variant.totalQuantity, variant.itemsPerSheet, extraCopies)
-    )
-  );
+  const getMaxCopies = () =>
+    Math.max(
+      ...variants.map((variant) =>
+        calculateTotalCopies(
+          variant.totalQuantity,
+          variant.itemsPerSheet,
+          extraCopies
+        )
+      )
+    );
 
   const addVariant = () => {
     setVariants((prev) => [
@@ -75,7 +80,7 @@ const CopyCalculator: React.FC = () => {
       : `(${variants[0].totalQuantity}+${remainingItems})_${maxCopies} copies.job`;
 
   useEffect(() => {
-    setMaxCopies(getMaxCopies())
+    setMaxCopies(getMaxCopies());
 
     const totalQuantity = variants.reduce(
       (sum, variant) => sum + variant.totalQuantity * variant.numLabels,
@@ -124,7 +129,7 @@ const CopyCalculator: React.FC = () => {
 
       <div className={styles.varintsBox}>
         <div className={styles.varints}>
-          {[...variants].reverse().map((variant, index) => (
+          {variants.map((variant, index) => (
             <VariantForm
               key={variant.id}
               totalQuantity={variant.totalQuantity}
