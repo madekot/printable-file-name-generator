@@ -22,8 +22,14 @@ const CopyCalculator: React.FC = () => {
     { id: Date.now(), totalQuantity: 1, itemsPerSheet: 1, numLabels: 1 },
   ]);
   const [extraCopies, setExtraCopies] = useState<number>(0);
-  const [totalCopies, setTotalCopies] = useState<number>(1);
   const [remainingItems, setRemainingItems] = useState<number>(0);
+  const [maxCopies, setMaxCopies] = useState<number>(0)
+
+  const getMaxCopies = () => Math.max(
+    ...variants.map(variant => 
+      calculateTotalCopies(variant.totalQuantity, variant.itemsPerSheet, extraCopies)
+    )
+  );
 
   const addVariant = () => {
     setVariants((prev) => [
@@ -54,7 +60,7 @@ const CopyCalculator: React.FC = () => {
       calculateRemainingItems(
         variant.totalQuantity,
         variant.itemsPerSheet,
-        extraCopies
+        maxCopies
       )
     );
 
@@ -65,10 +71,12 @@ const CopyCalculator: React.FC = () => {
     variants.length > 1 || variants[0].numLabels > 1
       ? variants
           .map((variant) => formatVariantString(variant, extraCopies))
-          .join("_+_") + `_${totalCopies} copies.job`
-      : `(${variants[0].totalQuantity}+${remainingItems})_${totalCopies} copies.job`;
+          .join("_+_") + `_${maxCopies} copies.job`
+      : `(${variants[0].totalQuantity}+${remainingItems})_${maxCopies} copies.job`;
 
   useEffect(() => {
+    setMaxCopies(getMaxCopies())
+
     const totalQuantity = variants.reduce(
       (sum, variant) => sum + variant.totalQuantity * variant.numLabels,
       0
@@ -78,13 +86,10 @@ const CopyCalculator: React.FC = () => {
       0
     );
 
-    setTotalCopies(
-      calculateTotalCopies(totalQuantity, itemsPerSheet, extraCopies)
-    );
     setRemainingItems(
-      calculateRemainingItems(totalQuantity, itemsPerSheet, extraCopies)
+      calculateRemainingItems(totalQuantity, itemsPerSheet, maxCopies)
     );
-  }, [variants, extraCopies]);
+  }, [variants, maxCopies]);
 
   return (
     <div className={styles.container}>
@@ -94,7 +99,7 @@ const CopyCalculator: React.FC = () => {
       </div>
 
       <CalculationResult
-        totalCopies={totalCopies}
+        totalCopies={maxCopies}
         remainingItems={remainingItems}
         dynamicString={dynamicString}
         onCopy={() => copyToClipboard(dynamicString)}
