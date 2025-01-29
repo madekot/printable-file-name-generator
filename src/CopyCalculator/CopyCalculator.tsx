@@ -61,12 +61,12 @@ const CopyCalculator: React.FC = () => {
     );
   };
 
-  const formatVariantString = (variant: Variant, extraCopies: number) => {
+  const formatVariantString = (variant: Variant, maxCopies: number) => {
     const remainingItems = Math.floor(
       calculateRemainingItems(
         variant.totalQuantity,
         variant.itemsPerSheet,
-        maxCopies + extraCopies
+        maxCopies
       )
     );
 
@@ -76,7 +76,7 @@ const CopyCalculator: React.FC = () => {
   const dynamicString =
     variants.length > 1 || variants[0].numLabels > 1
       ? variants
-          .map((variant) => formatVariantString(variant, extraCopies))
+          .map((variant) => formatVariantString(variant, maxCopies))
           .join("_+_") + `_${maxCopies} copies.job`
       : `(${variants[0].totalQuantity}+${remainingItems})_${maxCopies} copies.job`;
 
@@ -95,11 +95,7 @@ const CopyCalculator: React.FC = () => {
     setTotalItemsCount(totalQuantity);
 
     setRemainingItems(
-      calculateRemainingItems(
-        totalQuantity,
-        itemsPerSheet,
-        maxCopies + extraCopies
-      )
+      calculateRemainingItems(totalQuantity, itemsPerSheet, maxCopies)
     );
   }, [variants, maxCopies, totalItemsCount, extraCopies]);
 
