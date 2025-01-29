@@ -24,6 +24,7 @@ const CopyCalculator: React.FC = () => {
   const [extraCopies, setExtraCopies] = useState<number>(0);
   const [remainingItems, setRemainingItems] = useState<number>(0);
   const [maxCopies, setMaxCopies] = useState<number>(0);
+  const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
 
   const getMaxCopies = () =>
     Math.max(
@@ -65,7 +66,7 @@ const CopyCalculator: React.FC = () => {
       calculateRemainingItems(
         variant.totalQuantity,
         variant.itemsPerSheet,
-        maxCopies
+        maxCopies + extraCopies
       )
     );
 
@@ -91,10 +92,16 @@ const CopyCalculator: React.FC = () => {
       0
     );
 
+    setTotalItemsCount(totalQuantity);
+
     setRemainingItems(
-      calculateRemainingItems(totalQuantity, itemsPerSheet, maxCopies)
+      calculateRemainingItems(
+        totalQuantity,
+        itemsPerSheet,
+        maxCopies + extraCopies
+      )
     );
-  }, [variants, maxCopies]);
+  }, [variants, maxCopies, totalItemsCount, extraCopies]);
 
   return (
     <div className={styles.container}>
@@ -109,6 +116,9 @@ const CopyCalculator: React.FC = () => {
         dynamicString={dynamicString}
         onCopy={() => copyToClipboard(dynamicString)}
         addVariant={addVariant}
+        totalItemsCount={totalItemsCount}
+        itemsAddedCount={0}
+        extraCopies={extraCopies}
       />
 
       <div className={styles.headerBox}>
@@ -136,7 +146,7 @@ const CopyCalculator: React.FC = () => {
               itemsPerSheet={variant.itemsPerSheet}
               numLabels={variant.numLabels}
               disabled={variants.length === 1}
-              counterVariant={variants.length - index}
+              counterVariant={index + 1}
               onDelete={() => removeVariant(variant.id)}
               onTotalQuantityChange={(value) =>
                 updateVariant(variant.id, "totalQuantity", value)

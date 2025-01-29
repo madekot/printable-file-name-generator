@@ -7,6 +7,9 @@ interface CalculationResultProps {
   totalCopies: number;
   remainingItems: number;
   dynamicString: string;
+  totalItemsCount: number;
+  itemsAddedCount: number;
+  extraCopies: number;
   onCopy: () => void;
   addVariant: () => void;
 }
@@ -17,18 +20,30 @@ const CalculationResult: React.FC<CalculationResultProps> = ({
   dynamicString,
   onCopy,
   addVariant,
+  totalItemsCount,
+  extraCopies,
 }) => {
   return (
     <div className={styles.result}>
       <div className={styles.column}>
         <div className={""}>
           <div className={styles.info}>
-            <p>
-              Копий в печать: <span>{totalCopies}</span>
-            </p>
-            <p>
-              Изделий в плюс: <span>{remainingItems}</span>
-            </p>
+            <div className={styles.col}>
+              <p>
+                Копий в печать: <b>{totalCopies}</b>
+              </p>
+              <p>
+                Копий в приладку: <b>{extraCopies}</b>
+              </p>
+            </div>
+            <div className={styles.col}>
+              <p>
+                Тираж всех изделий: <b>{totalItemsCount}</b>
+              </p>
+              <p>
+                Итого изделий в плюс: <b>{remainingItems}</b>
+              </p>
+            </div>
           </div>
           <b className={styles.dynamicString}>{dynamicString}</b>
         </div>
