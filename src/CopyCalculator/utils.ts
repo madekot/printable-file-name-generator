@@ -11,9 +11,9 @@ const calculateTotalCopies = (
 const calculateRemainingItems = (
   totalQuantity: number,
   itemsPerSheet: number,
-  copies: number = 0,
+  copies: number = 0
 ): number => {
-    return copies * itemsPerSheet - totalQuantity;
+  return copies * itemsPerSheet - totalQuantity;
 };
 
 // Универсальная функция для копирования текста в буфер обмена
