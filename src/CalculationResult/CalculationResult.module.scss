@@ -24,6 +24,12 @@
   display: flex;
   gap: 40px;
   text-align: right;
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+  }
 }
 
 .dynamicString {

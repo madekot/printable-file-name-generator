@@ -121,6 +121,7 @@ const CopyCalculator: React.FC = () => {
           confirmMessage="Вы уверены, что хотите сбросить настройки приложения?"
           buttonText="Очистить результат"
           variant="red"
+          className={styles.btnReset}
         />
 
         <Logo className={styles.logo} />

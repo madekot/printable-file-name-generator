@@ -26,6 +26,10 @@
   gap: 20px;
 }
 
+.btnReset {
+  align-self: flex-end;
+}
+
 .varintsBox {
   display: flex;
   flex-direction: column;
@@ -47,7 +51,6 @@
 }
 
 .logo {
-  align-self: center;
   margin: auto 0 0 0;
 
   img {
