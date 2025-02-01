@@ -10,7 +10,6 @@ import {
   calculateTotalCopies,
   copyToClipboard,
 } from "./utils";
-import TestComponent from "../TestComponent/TestComponent";
 
 const INITIAL_VARIANT: Variant = {
   id: Date.now(),
@@ -115,7 +114,6 @@ const CopyCalculator: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <TestComponent />
         <h1 className={styles.title}>Генератор имени файла для&nbsp;печати</h1>
 
         <ButtonConfirmable
