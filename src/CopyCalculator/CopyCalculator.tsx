@@ -17,7 +17,7 @@ const INITIAL_VARIANT: Variant = {
   itemsPerSheet: 1,
   numLabels: 1,
 };
-const INITIAL_EXTRA_COPIES = null;
+const INITIAL_EXTRA_COPIES = 0;
 
 interface Variant {
   id: number;
@@ -28,9 +28,7 @@ interface Variant {
 
 const CopyCalculator: React.FC = () => {
   const [variants, setVariants] = useState<Variant[]>([INITIAL_VARIANT]);
-  const [extraCopies, setExtraCopies] = useState<number | null>(
-    INITIAL_EXTRA_COPIES
-  );
+  const [extraCopies, setExtraCopies] = useState<number>(INITIAL_EXTRA_COPIES);
   const [remainingItems, setRemainingItems] = useState<number>(0);
   const [maxCopies, setMaxCopies] = useState<number>(0);
   const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
@@ -41,7 +39,7 @@ const CopyCalculator: React.FC = () => {
         calculateTotalCopies(
           variant.totalQuantity,
           variant.itemsPerSheet,
-          extraCopies || 0
+          extraCopies
         )
       )
     );
@@ -136,7 +134,7 @@ const CopyCalculator: React.FC = () => {
         addVariant={addVariant}
         totalItemsCount={totalItemsCount}
         itemsAddedCount={0}
-        extraCopies={extraCopies || 0}
+        extraCopies={extraCopies}
       />
 
       <div className={styles.headerBox}>
@@ -144,8 +142,8 @@ const CopyCalculator: React.FC = () => {
         <form className={styles.column}>
           <InputField
             label="Приладка:"
-            value={extraCopies === null ? "" : extraCopies}
-            placeholder={extraCopies === null ? "0" : String(extraCopies)}
+            value={extraCopies}
+            placeholder={String(extraCopies)}
             type="number"
             onChange={(e) =>
               setExtraCopies(Math.max(Number(e.target.value), 0))

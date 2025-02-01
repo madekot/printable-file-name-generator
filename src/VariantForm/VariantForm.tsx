@@ -17,9 +17,6 @@ interface VariantFormProps {
   onDelete: () => void;
 }
 
-const getDisplayValue = (value: number) =>
-  value <= MIN_VALUE ? undefined : value;
-
 const VariantForm: React.FC<VariantFormProps> = ({
   totalQuantity,
   itemsPerSheet,
@@ -39,7 +36,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
           <InputField
             className={styles.input}
             label="Тираж варианта"
-            value={getDisplayValue(totalQuantity)}
+            value={totalQuantity}
             placeholder={String(totalQuantity)}
             type="number"
             onChange={(e) =>
@@ -50,7 +47,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
           <InputField
             className={styles.input}
             label="Изделий варианта на&nbsp;листе:"
-            value={getDisplayValue(itemsPerSheet)}
+            value={itemsPerSheet}
             placeholder={String(itemsPerSheet)}
             type="number"
             onChange={(e) =>
@@ -61,7 +58,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
           <InputField
             className={styles.input}
             label="Одинаковых видов:"
-            value={getDisplayValue(numLabels)}
+            value={numLabels}
             placeholder={String(numLabels)}
             type="number"
             onChange={(e) =>
