@@ -9,6 +9,7 @@ import {
   calculateTotalCopies,
   copyToClipboard,
 } from "./utils";
+import TestComponent from "../TestComponent/TestComponent";
 
 interface Variant {
   id: number;
@@ -102,6 +103,7 @@ const CopyCalculator: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
+        <TestComponent />
         <h1 className={styles.title}>Генератор имени файла для&nbsp;печати</h1>
         <Logo className={styles.logo} />
       </div>
