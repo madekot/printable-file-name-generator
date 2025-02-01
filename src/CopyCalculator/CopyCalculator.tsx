@@ -139,7 +139,6 @@ const CopyCalculator: React.FC = () => {
       />
 
       <div className={styles.headerBox}>
-        <b className={styles.varintsTitle}>Варианты на печатном листе</b>
         <form className={styles.column}>
           <InputField
             label="Приладка:"
@@ -156,6 +155,7 @@ const CopyCalculator: React.FC = () => {
       </div>
 
       <div className={styles.varintsBox}>
+        <b className={styles.varintsTitle}>Варианты раскладки на листе</b>
         <div className={styles.varints}>
           {variants.map((variant, index) => (
             <VariantForm
