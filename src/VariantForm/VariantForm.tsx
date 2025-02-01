@@ -43,6 +43,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
               onTotalQuantityChange(Math.max(Number(e.target.value), MIN_VALUE))
             }
             min={MIN_VALUE}
+            clearOnFocus
           />
           <InputField
             className={styles.input}
@@ -54,6 +55,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
               onItemsPerSheetChange(Math.max(Number(e.target.value), MIN_VALUE))
             }
             min={MIN_VALUE}
+            clearOnFocus
           />
           <InputField
             className={styles.input}
@@ -65,6 +67,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
               onNumLabelsChange(Math.max(Number(e.target.value), MIN_VALUE))
             }
             min={MIN_VALUE}
+            clearOnFocus
           />
         </div>
         <div className={styles.buttonGroup}>

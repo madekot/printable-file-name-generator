@@ -148,6 +148,7 @@ const CopyCalculator: React.FC = () => {
             onChange={(e) =>
               setExtraCopies(Math.max(Number(e.target.value), 0))
             }
+            clearOnFocus
             min={0}
           />
         </form>
