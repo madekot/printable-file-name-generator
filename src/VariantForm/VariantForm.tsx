@@ -17,9 +17,6 @@ interface VariantFormProps {
   onDelete: () => void;
 }
 
-const getDisplayValue = (value: number) =>
-  value <= MIN_VALUE ? undefined : value;
-
 const VariantForm: React.FC<VariantFormProps> = ({
   totalQuantity,
   itemsPerSheet,
@@ -39,35 +36,38 @@ const VariantForm: React.FC<VariantFormProps> = ({
           <InputField
             className={styles.input}
             label="Тираж варианта"
-            value={getDisplayValue(totalQuantity)}
+            value={totalQuantity}
             placeholder={String(totalQuantity)}
             type="number"
             onChange={(e) =>
               onTotalQuantityChange(Math.max(Number(e.target.value), MIN_VALUE))
             }
             min={MIN_VALUE}
+            clearOnFocus
           />
           <InputField
             className={styles.input}
             label="Изделий варианта на&nbsp;листе:"
-            value={getDisplayValue(itemsPerSheet)}
+            value={itemsPerSheet}
             placeholder={String(itemsPerSheet)}
             type="number"
             onChange={(e) =>
               onItemsPerSheetChange(Math.max(Number(e.target.value), MIN_VALUE))
             }
             min={MIN_VALUE}
+            clearOnFocus
           />
           <InputField
             className={styles.input}
             label="Одинаковых видов:"
-            value={getDisplayValue(numLabels)}
+            value={numLabels}
             placeholder={String(numLabels)}
             type="number"
             onChange={(e) =>
               onNumLabelsChange(Math.max(Number(e.target.value), MIN_VALUE))
             }
             min={MIN_VALUE}
+            clearOnFocus
           />
         </div>
         <div className={styles.buttonGroup}>

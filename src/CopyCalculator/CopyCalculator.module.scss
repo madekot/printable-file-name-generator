@@ -1,7 +1,6 @@
 .container {
   padding: 16px;
   font-family: Arial, sans-serif;
-  margin: 16px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -24,6 +23,21 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
+
+  @media (max-width: 767px) {
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+}
+
+.btnReset {
+  align-self: flex-end;
+
+  @media (max-width: 767px) {
+    flex-grow: 1;
+    align-self: center;
+  }
 }
 
 .varintsBox {
@@ -41,13 +55,7 @@
   font-size: 20px;
 }
 
-.headerBox {
-  display: flex;
-  justify-content: space-between;
-}
-
 .logo {
-  align-self: center;
   margin: auto 0 0 0;
 
   img {

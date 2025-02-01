@@ -3,6 +3,7 @@ import CalculationResult from "../CalculationResult/CalculationResult";
 import InputField from "../InputField/InputField";
 import VariantForm from "../VariantForm/VariantForm";
 import { Logo } from "../Logo/Logo";
+import ButtonConfirmable from "../ButtonConfirmable/ButtonConfirmable";
 import styles from "./CopyCalculator.module.scss";
 import {
   calculateRemainingItems,
@@ -10,6 +11,14 @@ import {
   copyToClipboard,
 } from "./utils";
 import TestComponent from "../TestComponent/TestComponent";
+
+const INITIAL_VARIANT: Variant = {
+  id: Date.now(),
+  totalQuantity: 1,
+  itemsPerSheet: 1,
+  numLabels: 1,
+};
+const INITIAL_EXTRA_COPIES = 0;
 
 interface Variant {
   id: number;
@@ -19,10 +28,8 @@ interface Variant {
 }
 
 const CopyCalculator: React.FC = () => {
-  const [variants, setVariants] = useState<Variant[]>([
-    { id: Date.now(), totalQuantity: 1, itemsPerSheet: 1, numLabels: 1 },
-  ]);
-  const [extraCopies, setExtraCopies] = useState<number>(0);
+  const [variants, setVariants] = useState<Variant[]>([INITIAL_VARIANT]);
+  const [extraCopies, setExtraCopies] = useState<number>(INITIAL_EXTRA_COPIES);
   const [remainingItems, setRemainingItems] = useState<number>(0);
   const [maxCopies, setMaxCopies] = useState<number>(0);
   const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
@@ -60,6 +67,11 @@ const CopyCalculator: React.FC = () => {
         variant.id === id ? { ...variant, [key]: value } : variant
       )
     );
+  };
+
+  const resetAppState = () => {
+    setVariants([INITIAL_VARIANT]);
+    setExtraCopies(INITIAL_EXTRA_COPIES);
   };
 
   const formatVariantString = (variant: Variant, maxCopies: number) => {
@@ -105,6 +117,15 @@ const CopyCalculator: React.FC = () => {
       <div className={styles.header}>
         <TestComponent />
         <h1 className={styles.title}>Генератор имени файла для&nbsp;печати</h1>
+
+        <ButtonConfirmable
+          onConfirm={resetAppState}
+          confirmMessage="Вы уверены, что хотите сбросить настройки приложения?"
+          buttonText="Очистить результат"
+          variant="red"
+          className={styles.btnReset}
+        />
+
         <Logo className={styles.logo} />
       </div>
 
@@ -120,22 +141,23 @@ const CopyCalculator: React.FC = () => {
       />
 
       <div className={styles.headerBox}>
-        <b className={styles.varintsTitle}>Варианты на печатном листе</b>
         <form className={styles.column}>
           <InputField
             label="Приладка:"
-            value={extraCopies <= 0 ? undefined : extraCopies}
+            value={extraCopies}
             placeholder={String(extraCopies)}
             type="number"
             onChange={(e) =>
               setExtraCopies(Math.max(Number(e.target.value), 0))
             }
+            clearOnFocus
             min={0}
           />
         </form>
       </div>
 
       <div className={styles.varintsBox}>
+        <b className={styles.varintsTitle}>Варианты раскладки на листе</b>
         <div className={styles.varints}>
           {variants.map((variant, index) => (
             <VariantForm
