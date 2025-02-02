@@ -22,10 +22,10 @@
 .info {
   margin-bottom: 20px;
   display: flex;
-  gap: 40px;
+  gap: 24px;
   text-align: right;
 
-  @media (max-width: 767px) {
+  @media (max-width: 414px) {
     flex-direction: column;
     gap: 10px;
     text-align: left;
