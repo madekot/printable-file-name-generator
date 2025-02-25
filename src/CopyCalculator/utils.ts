@@ -7,15 +7,6 @@ const calculateTotalCopies = (
   return Math.ceil(totalQuantity / itemsPerSheet) + extraCopies;
 };
 
-// Функция для расчета остатка
-const calculateRemainingItems = (
-  totalQuantity: number,
-  itemsPerSheet: number,
-  copies: number = 0
-): number => {
-  return copies * itemsPerSheet - totalQuantity;
-};
-
 // Универсальная функция для копирования текста в буфер обмена
 const copyToClipboard = (text: string) => {
   navigator.clipboard
@@ -29,4 +20,4 @@ const copyToClipboard = (text: string) => {
     });
 };
 
-export { calculateRemainingItems, calculateTotalCopies, copyToClipboard };
+export { calculateTotalCopies, copyToClipboard };
