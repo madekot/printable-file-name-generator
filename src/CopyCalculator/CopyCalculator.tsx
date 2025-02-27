@@ -5,8 +5,11 @@ import VariantForm from "../VariantForm/VariantForm";
 import { Logo } from "../Logo/Logo";
 import ButtonConfirmable from "../ButtonConfirmable/ButtonConfirmable";
 import styles from "./CopyCalculator.module.scss";
-import { calculateTotalCopies, copyToClipboard } from "./utils";
-import { calculateRemainingItems } from "./utils/calculateRemainingItems";
+import {
+  calculateTotalCopies,
+  calculateRemainingItems,
+  copyToClipboard,
+} from "./utils";
 
 const INITIAL_VARIANT: Variant = {
   id: Date.now(),
