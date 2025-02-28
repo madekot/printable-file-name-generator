@@ -73,7 +73,7 @@ const CopyCalculator: React.FC = () => {
     setExtraCopies(INITIAL_EXTRA_COPIES);
   };
 
-  const formatVariantString = (variant: Variant, maxCopies: number) => {
+  const formatSingleVariant = (variant: Variant, maxCopies: number) => {
     const remainingItems = Math.floor(
       calculateRemainingItems(
         variant.totalQuantity,
@@ -82,15 +82,28 @@ const CopyCalculator: React.FC = () => {
       )
     );
 
-    return `(${variant.numLabels}x${variant.totalQuantity}+${variant.numLabels}x${remainingItems})`;
+    return remainingItems === 0 || variant.numLabels === 1
+      ? `(${variant.totalQuantity}+${remainingItems})`
+      : `(${variant.numLabels}x${variant.totalQuantity}+${variant.numLabels}x${remainingItems})`;
   };
 
-  const dynamicString =
-    variants.length > 1 || variants[0].numLabels > 1
-      ? variants
-          .map((variant) => formatVariantString(variant, maxCopies))
-          .join("_+_") + `_${maxCopies} copies`
-      : `(${variants[0].totalQuantity}+${remainingItems})_${maxCopies} copies`;
+  const formatMultiVariant = (variants: Variant[], maxCopies: number) => {
+    return variants
+      .map((variant) => formatSingleVariant(variant, maxCopies))
+      .join("_+_");
+  };
+
+  const formatVariantStringWithCopies = (
+    variants: Variant[],
+    maxCopies: number
+  ) => {
+    const formattedString =
+      variants.length > 1
+        ? formatMultiVariant(variants, maxCopies)
+        : formatSingleVariant(variants[0], maxCopies);
+
+    return `${formattedString}_${maxCopies} copies`;
+  };
 
   useEffect(() => {
     setMaxCopies(getMaxCopies());
@@ -130,8 +143,10 @@ const CopyCalculator: React.FC = () => {
       <CalculationResult
         totalCopies={maxCopies}
         remainingItems={remainingItems}
-        dynamicString={dynamicString}
-        onCopy={() => copyToClipboard(dynamicString)}
+        dynamicString={formatVariantStringWithCopies(variants, maxCopies)}
+        onCopy={() =>
+          copyToClipboard(formatVariantStringWithCopies(variants, maxCopies))
+        }
         addVariant={addVariant}
         totalItemsCount={totalItemsCount}
         itemsAddedCount={0}
