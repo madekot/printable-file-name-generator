@@ -150,6 +150,7 @@ const CopyCalculator: React.FC = () => {
             }
             clearOnFocus
             min={0}
+            integerOnly
           />
         </form>
       </div>
