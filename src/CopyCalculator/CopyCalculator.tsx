@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import CalculationResult from "../CalculationResult/CalculationResult";
 import InputField from "../InputField/InputField";
 import VariantForm from "../VariantForm/VariantForm";
@@ -6,9 +6,10 @@ import { Logo } from "../Logo/Logo";
 import ButtonConfirmable from "../ButtonConfirmable/ButtonConfirmable";
 import styles from "./CopyCalculator.module.scss";
 import {
-  calculateRemainingItems,
   calculateTotalCopies,
+  calculateRemainingItems,
   copyToClipboard,
+  formatMultiVariant,
 } from "./utils";
 
 const INITIAL_VARIANT: Variant = {
@@ -33,18 +34,13 @@ const CopyCalculator: React.FC = () => {
   const [maxCopies, setMaxCopies] = useState<number>(0);
   const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
 
-  const getMaxCopies = () =>
-    Math.max(
-      ...variants.map((variant) =>
-        calculateTotalCopies(
-          variant.totalQuantity,
-          variant.itemsPerSheet,
-          extraCopies
-        )
-      )
-    );
+  const formattedVariants = useMemo(
+    () => formatMultiVariant(variants, maxCopies),
+    [variants, maxCopies]
+  );
+  const formatVariantStringWithCopies = `${formattedVariants}_${maxCopies} copies`;
 
-  const addVariant = () => {
+  const addVariant = useCallback(() => {
     setVariants((prev) => [
       ...prev,
       {
@@ -54,45 +50,43 @@ const CopyCalculator: React.FC = () => {
         numLabels: 1,
       },
     ]);
-  };
+  }, []);
 
-  const removeVariant = (id: number) => {
+  const removeVariant = useCallback((id: number) => {
     setVariants((prev) => prev.filter((variant) => variant.id !== id));
-  };
+  }, []);
 
-  const updateVariant = (id: number, key: keyof Variant, value: number) => {
-    setVariants((prev) =>
-      prev.map((variant) =>
-        variant.id === id ? { ...variant, [key]: value } : variant
-      )
-    );
-  };
+  const updateVariant = useCallback(
+    (id: number, key: keyof Variant, value: number) => {
+      setVariants((prev) =>
+        prev.map((variant) =>
+          variant.id === id ? { ...variant, [key]: value } : variant
+        )
+      );
+    },
+    []
+  );
 
   const resetAppState = () => {
     setVariants([INITIAL_VARIANT]);
     setExtraCopies(INITIAL_EXTRA_COPIES);
+    setTotalItemsCount(0);
+    setRemainingItems(0);
   };
-
-  const formatVariantString = (variant: Variant, maxCopies: number) => {
-    const remainingItems = Math.floor(
-      calculateRemainingItems(
-        variant.totalQuantity,
-        variant.itemsPerSheet,
-        maxCopies
-      )
-    );
-
-    return `(${variant.numLabels}x${variant.totalQuantity}+${variant.numLabels}x${remainingItems})`;
-  };
-
-  const dynamicString =
-    variants.length > 1 || variants[0].numLabels > 1
-      ? variants
-          .map((variant) => formatVariantString(variant, maxCopies))
-          .join("_+_") + `_${maxCopies} copies`
-      : `(${variants[0].totalQuantity}+${remainingItems})_${maxCopies} copies`;
 
   useEffect(() => {
+    const getMaxCopies = () => {
+      return Math.max(
+        ...variants.map((variant) =>
+          calculateTotalCopies(
+            variant.totalQuantity,
+            variant.itemsPerSheet,
+            extraCopies
+          )
+        )
+      );
+    };
+
     setMaxCopies(getMaxCopies());
 
     const totalQuantity = variants.reduce(
@@ -109,7 +103,7 @@ const CopyCalculator: React.FC = () => {
     setRemainingItems(
       calculateRemainingItems(totalQuantity, itemsPerSheet, maxCopies)
     );
-  }, [variants, maxCopies, totalItemsCount, extraCopies]);
+  }, [variants, maxCopies, extraCopies]);
 
   return (
     <div className={styles.container}>
@@ -130,8 +124,8 @@ const CopyCalculator: React.FC = () => {
       <CalculationResult
         totalCopies={maxCopies}
         remainingItems={remainingItems}
-        dynamicString={dynamicString}
-        onCopy={() => copyToClipboard(dynamicString)}
+        dynamicString={formatVariantStringWithCopies}
+        onCopy={() => copyToClipboard(formatVariantStringWithCopies)}
         addVariant={addVariant}
         totalItemsCount={totalItemsCount}
         itemsAddedCount={0}
@@ -146,10 +140,11 @@ const CopyCalculator: React.FC = () => {
             placeholder={String(extraCopies)}
             type="number"
             onChange={(e) =>
-              setExtraCopies(Math.max(Number(e.target.value), 0))
+              setExtraCopies(Math.max(parseInt(e.target.value, 10) || 0, 0))
             }
             clearOnFocus
             min={0}
+            integerOnly
           />
         </form>
       </div>

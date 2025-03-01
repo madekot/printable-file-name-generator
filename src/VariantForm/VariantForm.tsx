@@ -44,6 +44,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
             }
             min={MIN_VALUE}
             clearOnFocus
+            integerOnly
           />
           <InputField
             className={styles.input}
@@ -56,6 +57,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
             }
             min={MIN_VALUE}
             clearOnFocus
+            integerOnly
           />
           <InputField
             className={styles.input}
@@ -68,6 +70,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
             }
             min={MIN_VALUE}
             clearOnFocus
+            integerOnly
           />
         </div>
         <div className={styles.buttonGroup}>

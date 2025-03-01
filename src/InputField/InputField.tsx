@@ -10,6 +10,7 @@ interface InputFieldProps extends React.HTMLProps<HTMLDivElement> {
   type?: string;
   clearOnFocus?: boolean;
   placeholder?: string;
+  integerOnly?: boolean;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -22,6 +23,7 @@ const InputField: React.FC<InputFieldProps> = ({
   type,
   placeholder,
   className,
+  integerOnly = false,
   ...restProps
 }) => {
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -34,6 +36,24 @@ const InputField: React.FC<InputFieldProps> = ({
     }
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let newValue = e.target.value;
+
+    if (integerOnly) {
+      newValue = newValue.replace(/[^0-9]/g, "");
+    }
+
+    if (onChange) {
+      onChange({ ...e, target: { ...e.target, value: newValue } });
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (integerOnly && (e.key === "." || e.key === "," || e.key === "e")) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <div className={clsx(styles.inputField, className)} {...restProps}>
       <label className={styles.label}>{label}</label>
@@ -42,8 +62,9 @@ const InputField: React.FC<InputFieldProps> = ({
         type={type}
         value={value}
         min={min}
-        onChange={onChange}
+        onChange={handleChange}
         onFocus={handleFocus}
+        onKeyDown={handleKeyDown}
         className={styles.input}
       />
     </div>
