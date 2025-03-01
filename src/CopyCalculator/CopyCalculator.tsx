@@ -38,17 +38,6 @@ const CopyCalculator: React.FC = () => {
     return `${formatMultiVariant(variants, maxCopies)}_${maxCopies} copies`;
   }, [variants, maxCopies]);
 
-  const getMaxCopies = () =>
-    Math.max(
-      ...variants.map((variant) =>
-        calculateTotalCopies(
-          variant.totalQuantity,
-          variant.itemsPerSheet,
-          extraCopies
-        )
-      )
-    );
-
   const addVariant = () => {
     setVariants((prev) => [
       ...prev,
@@ -79,6 +68,17 @@ const CopyCalculator: React.FC = () => {
   };
 
   useEffect(() => {
+    const getMaxCopies = () =>
+      Math.max(
+        ...variants.map((variant) =>
+          calculateTotalCopies(
+            variant.totalQuantity,
+            variant.itemsPerSheet,
+            extraCopies
+          )
+        )
+      );
+
     setMaxCopies(getMaxCopies());
 
     const totalQuantity = variants.reduce(
@@ -95,7 +95,7 @@ const CopyCalculator: React.FC = () => {
     setRemainingItems(
       calculateRemainingItems(totalQuantity, itemsPerSheet, maxCopies)
     );
-  }, [variants, maxCopies, totalItemsCount, extraCopies]);
+  }, [variants, maxCopies, extraCopies]);
 
   return (
     <div className={styles.container}>
