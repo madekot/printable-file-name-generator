@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import CalculationResult from "../CalculationResult/CalculationResult";
 import InputField from "../InputField/InputField";
 import VariantForm from "../VariantForm/VariantForm";
@@ -34,11 +34,13 @@ const CopyCalculator: React.FC = () => {
   const [maxCopies, setMaxCopies] = useState<number>(0);
   const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
 
-  const formatVariantStringWithCopies = useMemo(() => {
-    return `${formatMultiVariant(variants, maxCopies)}_${maxCopies} copies`;
-  }, [variants, maxCopies]);
+  const formattedVariants = useMemo(
+    () => formatMultiVariant(variants, maxCopies),
+    [variants, maxCopies]
+  );
+  const formatVariantStringWithCopies = `${formattedVariants}_${maxCopies} copies`;
 
-  const addVariant = () => {
+  const addVariant = useCallback(() => {
     setVariants((prev) => [
       ...prev,
       {
@@ -48,28 +50,33 @@ const CopyCalculator: React.FC = () => {
         numLabels: 1,
       },
     ]);
-  };
+  }, []);
 
-  const removeVariant = (id: number) => {
+  const removeVariant = useCallback((id: number) => {
     setVariants((prev) => prev.filter((variant) => variant.id !== id));
-  };
+  }, []);
 
-  const updateVariant = (id: number, key: keyof Variant, value: number) => {
-    setVariants((prev) =>
-      prev.map((variant) =>
-        variant.id === id ? { ...variant, [key]: value } : variant
-      )
-    );
-  };
+  const updateVariant = useCallback(
+    (id: number, key: keyof Variant, value: number) => {
+      setVariants((prev) =>
+        prev.map((variant) =>
+          variant.id === id ? { ...variant, [key]: value } : variant
+        )
+      );
+    },
+    []
+  );
 
   const resetAppState = () => {
     setVariants([INITIAL_VARIANT]);
     setExtraCopies(INITIAL_EXTRA_COPIES);
+    setTotalItemsCount(0);
+    setRemainingItems(0);
   };
 
   useEffect(() => {
-    const getMaxCopies = () =>
-      Math.max(
+    const getMaxCopies = () => {
+      return Math.max(
         ...variants.map((variant) =>
           calculateTotalCopies(
             variant.totalQuantity,
@@ -78,6 +85,7 @@ const CopyCalculator: React.FC = () => {
           )
         )
       );
+    };
 
     setMaxCopies(getMaxCopies());
 
@@ -132,7 +140,7 @@ const CopyCalculator: React.FC = () => {
             placeholder={String(extraCopies)}
             type="number"
             onChange={(e) =>
-              setExtraCopies(Math.max(Number(e.target.value), 0))
+              setExtraCopies(Math.max(parseInt(e.target.value, 10) || 0, 0))
             }
             clearOnFocus
             min={0}
