@@ -1,7 +1,10 @@
 import { calculateTotalCopies } from "./calculateTotalCopies";
 import { z } from "zod";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 describe("calculateTotalCopies", () => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   const checkZodError = (fn: Function, message: string) => {
     expect(fn).toThrowError(z.ZodError);
     try {
