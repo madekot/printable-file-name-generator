@@ -9,6 +9,7 @@ import {
   calculateTotalCopies,
   calculateRemainingItems,
   copyToClipboard,
+  formatSingleVariant,
 } from "./utils";
 
 const INITIAL_VARIANT: Variant = {
@@ -73,23 +74,9 @@ const CopyCalculator: React.FC = () => {
     setExtraCopies(INITIAL_EXTRA_COPIES);
   };
 
-  const formatSingleVariant = (variant: Variant, maxCopies: number) => {
-    const remainingItems = Math.floor(
-      calculateRemainingItems(
-        variant.totalQuantity,
-        variant.itemsPerSheet,
-        maxCopies
-      )
-    );
-
-    return remainingItems === 0 || variant.numLabels === 1
-      ? `(${variant.totalQuantity}+${remainingItems})`
-      : `(${variant.numLabels}x${variant.totalQuantity}+${variant.numLabels}x${remainingItems})`;
-  };
-
   const formatMultiVariant = (variants: Variant[], maxCopies: number) => {
     return variants
-      .map((variant) => formatSingleVariant(variant, maxCopies))
+      .map((variant) => formatSingleVariant({ ...variant, copies: maxCopies }))
       .join("_+_");
   };
 
@@ -100,7 +87,7 @@ const CopyCalculator: React.FC = () => {
     const formattedString =
       variants.length > 1
         ? formatMultiVariant(variants, maxCopies)
-        : formatSingleVariant(variants[0], maxCopies);
+        : formatSingleVariant({ ...variants[0], copies: maxCopies });
 
     return `${formattedString}_${maxCopies} copies`;
   };
