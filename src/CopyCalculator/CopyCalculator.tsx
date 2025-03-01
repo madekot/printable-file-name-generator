@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import CalculationResult from "../CalculationResult/CalculationResult";
 import InputField from "../InputField/InputField";
 import VariantForm from "../VariantForm/VariantForm";
@@ -9,7 +9,7 @@ import {
   calculateTotalCopies,
   calculateRemainingItems,
   copyToClipboard,
-  formatSingleVariant,
+  formatMultiVariant,
 } from "./utils";
 
 const INITIAL_VARIANT: Variant = {
@@ -33,6 +33,10 @@ const CopyCalculator: React.FC = () => {
   const [remainingItems, setRemainingItems] = useState<number>(0);
   const [maxCopies, setMaxCopies] = useState<number>(0);
   const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
+
+  const formatVariantStringWithCopies = useMemo(() => {
+    return `${formatMultiVariant(variants, maxCopies)}_${maxCopies} copies`;
+  }, [variants, maxCopies]);
 
   const getMaxCopies = () =>
     Math.max(
@@ -74,24 +78,6 @@ const CopyCalculator: React.FC = () => {
     setExtraCopies(INITIAL_EXTRA_COPIES);
   };
 
-  const formatMultiVariant = (variants: Variant[], maxCopies: number) => {
-    return variants
-      .map((variant) => formatSingleVariant({ ...variant, copies: maxCopies }))
-      .join("_+_");
-  };
-
-  const formatVariantStringWithCopies = (
-    variants: Variant[],
-    maxCopies: number
-  ) => {
-    const formattedString =
-      variants.length > 1
-        ? formatMultiVariant(variants, maxCopies)
-        : formatSingleVariant({ ...variants[0], copies: maxCopies });
-
-    return `${formattedString}_${maxCopies} copies`;
-  };
-
   useEffect(() => {
     setMaxCopies(getMaxCopies());
 
@@ -130,10 +116,8 @@ const CopyCalculator: React.FC = () => {
       <CalculationResult
         totalCopies={maxCopies}
         remainingItems={remainingItems}
-        dynamicString={formatVariantStringWithCopies(variants, maxCopies)}
-        onCopy={() =>
-          copyToClipboard(formatVariantStringWithCopies(variants, maxCopies))
-        }
+        dynamicString={formatVariantStringWithCopies}
+        onCopy={() => copyToClipboard(formatVariantStringWithCopies)}
         addVariant={addVariant}
         totalItemsCount={totalItemsCount}
         itemsAddedCount={0}
