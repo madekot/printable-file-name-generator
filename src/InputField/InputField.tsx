@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import styles from "./InputField.module.scss";
+import { useRef } from "react";
 
 interface InputFieldProps extends React.HTMLProps<HTMLDivElement> {
   label: string;
@@ -18,6 +19,7 @@ const InputField: React.FC<InputFieldProps> = ({
   value,
   onChange,
   onFocus,
+  onBlur,
   clearOnFocus = false,
   min,
   type,
@@ -28,6 +30,8 @@ const InputField: React.FC<InputFieldProps> = ({
   inputMode,
   ...restProps
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     if (clearOnFocus) {
       e.target.value = "";
@@ -41,8 +45,14 @@ const InputField: React.FC<InputFieldProps> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newValue = e.target.value;
 
-    if (integerOnly) {
-      newValue = newValue.replace(/[^0-9]/g, "");
+    if (
+      integerOnly &&
+      inputRef.current &&
+      inputRef.current.value.length > 1 &&
+      inputRef.current.value[0] === "0"
+    ) {
+      newValue = "0";
+      inputRef.current.value = newValue;
     }
 
     if (onChange) {
@@ -51,8 +61,30 @@ const InputField: React.FC<InputFieldProps> = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (integerOnly && (e.key === "." || e.key === "," || e.key === "e")) {
+    if (
+      integerOnly &&
+      (e.key === "." ||
+        e.key === "," ||
+        e.key === "e" ||
+        e.key === "-" ||
+        e.key === "+")
+    ) {
       e.preventDefault();
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (integerOnly && min !== undefined && inputRef.current) {
+      const currentValue = parseFloat(inputRef.current.value);
+
+      if (currentValue < min || inputRef.current.value === "") {
+        inputRef.current.value = min.toString();
+        onChange?.({ ...e, target: { ...e.target, value: min.toString() } });
+      }
+    }
+
+    if (onBlur) {
+      onBlur(e);
     }
   };
 
@@ -60,6 +92,7 @@ const InputField: React.FC<InputFieldProps> = ({
     <div className={clsx(styles.inputField, className)} {...restProps}>
       <label className={styles.label}>{label}</label>
       <input
+        ref={inputRef}
         placeholder={placeholder}
         type={type}
         inputMode={inputMode}
@@ -68,6 +101,7 @@ const InputField: React.FC<InputFieldProps> = ({
         min={min}
         onChange={handleChange}
         onFocus={handleFocus}
+        onBlur={handleBlur}
         onKeyDown={handleKeyDown}
         className={styles.input}
       />
