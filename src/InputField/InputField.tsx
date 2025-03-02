@@ -52,6 +52,14 @@ const InputField: React.FC<InputFieldProps> = ({
       inputRef.current.value[0] === "0"
     ) {
       newValue = "0";
+    }
+
+    if (integerOnly) {
+      // Оставляем только цифры
+      newValue = newValue.replace(/[^0-9]/g, "");
+    }
+
+    if (inputRef.current) {
       inputRef.current.value = newValue;
     }
 
