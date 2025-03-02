@@ -136,13 +136,13 @@ const CopyCalculator: React.FC = () => {
         <form className={styles.column}>
           <InputField
             label="Приладка:"
-            value={extraCopies}
+            defaultValue={extraCopies}
+            inputMode="numeric"
             placeholder={String(extraCopies)}
             type="number"
             onChange={(e) =>
               setExtraCopies(Math.max(parseInt(e.target.value, 10) || 0, 0))
             }
-            clearOnFocus
             min={0}
             integerOnly
           />

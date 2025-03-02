@@ -36,40 +36,40 @@ const VariantForm: React.FC<VariantFormProps> = ({
           <InputField
             className={styles.input}
             label="Тираж варианта"
-            value={totalQuantity}
+            defaultValue={totalQuantity}
+            inputMode="numeric"
             placeholder={String(totalQuantity)}
             type="number"
             onChange={(e) =>
               onTotalQuantityChange(Math.max(Number(e.target.value), MIN_VALUE))
             }
             min={MIN_VALUE}
-            clearOnFocus
             integerOnly
           />
           <InputField
             className={styles.input}
             label="Изделий варианта на&nbsp;листе:"
-            value={itemsPerSheet}
+            defaultValue={itemsPerSheet}
+            inputMode="numeric"
             placeholder={String(itemsPerSheet)}
             type="number"
             onChange={(e) =>
               onItemsPerSheetChange(Math.max(Number(e.target.value), MIN_VALUE))
             }
             min={MIN_VALUE}
-            clearOnFocus
             integerOnly
           />
           <InputField
             className={styles.input}
             label="Одинаковых видов:"
-            value={numLabels}
+            defaultValue={numLabels}
+            inputMode="numeric"
             placeholder={String(numLabels)}
             type="number"
             onChange={(e) =>
               onNumLabelsChange(Math.max(Number(e.target.value), MIN_VALUE))
             }
             min={MIN_VALUE}
-            clearOnFocus
             integerOnly
           />
         </div>

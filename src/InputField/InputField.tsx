@@ -24,6 +24,8 @@ const InputField: React.FC<InputFieldProps> = ({
   placeholder,
   className,
   integerOnly = false,
+  defaultValue,
+  inputMode,
   ...restProps
 }) => {
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -60,6 +62,8 @@ const InputField: React.FC<InputFieldProps> = ({
       <input
         placeholder={placeholder}
         type={type}
+        inputMode={inputMode}
+        defaultValue={defaultValue}
         value={value}
         min={min}
         onChange={handleChange}
