@@ -1,58 +1,36 @@
 import clsx from "clsx";
 import styles from "./InputField.module.scss";
+import { useInternalValue } from "./useInternalValue";
+import { useRestoreOnBlur } from "./useRestoreOnBlur";
 
 interface InputFieldProps extends React.HTMLProps<HTMLDivElement> {
   label: string;
-  value?: number | string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  min?: number;
-  type?: string;
-  clearOnFocus?: boolean;
-  placeholder?: string;
-  integerOnly?: boolean;
+  value: number;
+  min: number;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
   label,
   value,
   onChange,
-  onFocus,
-  clearOnFocus = false,
   min,
   type,
   placeholder,
   className,
-  integerOnly = false,
+  onBlur,
   ...restProps
 }) => {
-  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (clearOnFocus) {
-      e.target.value = "";
-    }
-
-    if (onFocus) {
-      onFocus(e);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newValue = e.target.value;
-
-    if (integerOnly) {
-      newValue = newValue.replace(/[^0-9]/g, "");
-    }
-
-    if (onChange) {
-      onChange({ ...e, target: { ...e.target, value: newValue } });
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (integerOnly && (e.key === "." || e.key === "," || e.key === "e")) {
-      e.preventDefault();
-    }
-  };
+  const { internalValue, setInternalValue, handleChange } = useInternalValue(
+    value,
+    onChange
+  );
+  const { handleBlur } = useRestoreOnBlur(
+    internalValue,
+    setInternalValue,
+    value,
+    min,
+    onBlur
+  );
 
   return (
     <div className={clsx(styles.inputField, className)} {...restProps}>
@@ -60,11 +38,10 @@ const InputField: React.FC<InputFieldProps> = ({
       <input
         placeholder={placeholder}
         type={type}
-        value={value}
+        value={internalValue}
         min={min}
         onChange={handleChange}
-        onFocus={handleFocus}
-        onKeyDown={handleKeyDown}
+        onBlur={handleBlur}
         className={styles.input}
       />
     </div>
