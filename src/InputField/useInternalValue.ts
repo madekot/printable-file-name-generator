@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 
+const filterInvalidChars = (val: string) => val.replace(/\D/g, "");
+
 export function useInternalValue(
   value: number,
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 ) {
   const [internalValue, setInternalValue] = useState(value.toString());
 
@@ -11,10 +13,18 @@ export function useInternalValue(
   }, [value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInternalValue(e.target.value);
-    if (e.target.value.trim() !== "") {
-      onChange?.(e);
-    }
+    const newValue = filterInvalidChars(e.target.value);
+
+    const newEvent = {
+      ...e,
+      target: {
+        ...e.target,
+        value: newValue,
+      },
+    };
+
+    setInternalValue(newValue);
+    onChange?.(newEvent);
   };
 
   return { handleChange, internalValue, setInternalValue };

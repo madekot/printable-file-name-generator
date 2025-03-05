@@ -1,12 +1,13 @@
 import clsx from "clsx";
 import styles from "./InputField.module.scss";
 import { useInternalValue } from "./useInternalValue";
-import { useRestoreOnBlur } from "./useRestoreOnBlur";
+import { restoreOnBlur } from "./restoreOnBlur";
 
 interface InputFieldProps extends React.HTMLProps<HTMLDivElement> {
   label: string;
   value: number;
   min: number;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -14,22 +15,20 @@ const InputField: React.FC<InputFieldProps> = ({
   value,
   onChange,
   min,
-  type,
   placeholder,
   className,
-  onBlur,
   ...restProps
 }) => {
   const { internalValue, setInternalValue, handleChange } = useInternalValue(
     value,
     onChange
   );
-  const { handleBlur } = useRestoreOnBlur(
+
+  const { handleBlur } = restoreOnBlur(
     internalValue,
     setInternalValue,
     value,
-    min,
-    onBlur
+    min
   );
 
   return (
@@ -37,7 +36,8 @@ const InputField: React.FC<InputFieldProps> = ({
       <label className={styles.label}>{label}</label>
       <input
         placeholder={placeholder}
-        type={type}
+        inputMode="numeric"
+        type={"text"}
         value={internalValue}
         min={min}
         onChange={handleChange}
