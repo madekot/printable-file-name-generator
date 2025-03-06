@@ -1,10 +1,12 @@
 {
     "include": [
-        "./src/**/*",
-        "./module.scss.d.ts"
+        "src/**/*",
+        "module.scss.d.ts"
     ],
+    "exclude": ["node_modules", "dist"],
     "compilerOptions": {
         "strict": true,
+        "skipLibCheck": true,
         "esModuleInterop": true,
         "lib": [
             "dom",
