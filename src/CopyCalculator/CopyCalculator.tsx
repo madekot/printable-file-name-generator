@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import CalculationResult from "../CalculationResult/CalculationResult";
 import InputField from "../InputField/InputField";
-import VariantForm from "../VariantForm/VariantForm";
 import { Logo } from "../Logo/Logo";
 import ButtonConfirmable from "../ButtonConfirmable/ButtonConfirmable";
 import styles from "./CopyCalculator.module.scss";
@@ -11,7 +10,16 @@ import {
   copyToClipboard,
   formatMultiVariant,
 } from "./utils";
+import { LayoutComponent } from "./LayoutComponent";
+import VariantForm from "../VariantForm/VariantForm";
 
+/**
+ * Начальные значения для нового варианта печати.
+ * @property {number} id - Уникальный идентификатор (timestamp).
+ * @property {number} totalQuantity - Общее количество копий.
+ * @property {number} itemsPerSheet - Количество одинаковых варианта на спуске.
+ * @property {number} numLabels - Количество одинаковы видов на спуске.
+ */
 const INITIAL_VARIANT: Variant = {
   id: Date.now(),
   totalQuantity: 1,
@@ -106,10 +114,9 @@ const CopyCalculator: React.FC = () => {
   }, [variants, maxCopies, extraCopies]);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>Генератор имени файла для&nbsp;печати</h1>
-
+    <LayoutComponent
+      title="Генератор имени файла для печати"
+      resetButton={
         <ButtonConfirmable
           onConfirm={resetAppState}
           confirmMessage="Вы уверены, что хотите сбросить настройки приложения?"
@@ -117,62 +124,54 @@ const CopyCalculator: React.FC = () => {
           variant="red"
           className={styles.btnReset}
         />
-
-        <Logo className={styles.logo} />
-      </div>
-
-      <CalculationResult
-        totalCopies={maxCopies}
-        remainingItems={remainingItems}
-        dynamicString={formatVariantStringWithCopies}
-        onCopy={() => copyToClipboard(formatVariantStringWithCopies)}
-        addVariant={addVariant}
-        totalItemsCount={totalItemsCount}
-        itemsAddedCount={0}
-        extraCopies={extraCopies}
-      />
-
-      <div className={styles.headerBox}>
-        <form className={styles.column}>
-          <InputField
-            label="Приладка:"
-            value={extraCopies}
-            placeholder={String(extraCopies)}
-            type="number"
-            onChange={(e) =>
-              setExtraCopies(Math.max(parseInt(e.target.value, 10) || 0, 0))
-            }
-            min={0}
-          />
-        </form>
-      </div>
-
-      <div className={styles.varintsBox}>
-        <b className={styles.varintsTitle}>Варианты раскладки на листе</b>
-        <div className={styles.varints}>
-          {variants.map((variant, index) => (
-            <VariantForm
-              key={variant.id}
-              totalQuantity={variant.totalQuantity}
-              itemsPerSheet={variant.itemsPerSheet}
-              numLabels={variant.numLabels}
-              disabled={variants.length === 1}
-              counterVariant={index + 1}
-              onDelete={() => removeVariant(variant.id)}
-              onTotalQuantityChange={(value) =>
-                updateVariant(variant.id, "totalQuantity", value)
-              }
-              onItemsPerSheetChange={(value) =>
-                updateVariant(variant.id, "itemsPerSheet", value)
-              }
-              onNumLabelsChange={(value) =>
-                updateVariant(variant.id, "numLabels", value)
-              }
-            />
-          ))}
-        </div>
-      </div>
-    </div>
+      }
+      logo={<Logo className={styles.logo} />}
+      calculationResult={
+        <CalculationResult
+          totalCopies={maxCopies}
+          remainingItems={remainingItems}
+          dynamicString={formatVariantStringWithCopies}
+          onCopy={() => copyToClipboard(formatVariantStringWithCopies)}
+          addVariant={addVariant}
+          totalItemsCount={totalItemsCount}
+          itemsAddedCount={0}
+          extraCopies={extraCopies}
+        />
+      }
+      extraCopiesInput={
+        <InputField
+          label="Приладка:"
+          value={extraCopies}
+          placeholder={String(extraCopies)}
+          type="number"
+          onChange={(e) =>
+            setExtraCopies(Math.max(parseInt(e.target.value, 10) || 0, 0))
+          }
+          min={0}
+        />
+      }
+      variantsTitle="Варианты раскладки на листе"
+      variantsList={variants.map((variant, index) => (
+        <VariantForm
+          key={variant.id}
+          totalQuantity={variant.totalQuantity}
+          itemsPerSheet={variant.itemsPerSheet}
+          numLabels={variant.numLabels}
+          disabled={variants.length === 1}
+          counterVariant={index + 1}
+          onDelete={() => removeVariant(variant.id)}
+          onTotalQuantityChange={(value) =>
+            updateVariant(variant.id, "totalQuantity", value)
+          }
+          onItemsPerSheetChange={(value) =>
+            updateVariant(variant.id, "itemsPerSheet", value)
+          }
+          onNumLabelsChange={(value) =>
+            updateVariant(variant.id, "numLabels", value)
+          }
+        />
+      ))}
+    />
   );
 };
 
