@@ -12,32 +12,18 @@ import {
 } from "./utils";
 import { LayoutComponent } from "./LayoutComponent";
 import VariantForm from "../VariantForm/VariantForm";
-import { addVariant, removeVariant, updateVariant } from "./utils/variantCRUD";
+import { useVariants } from "./utils/useVariants";
 
-/**
- * Начальные значения для нового варианта печати.
- * @property {number} id - Уникальный идентификатор (timestamp).
- * @property {number} totalQuantity - Общее количество копий.
- * @property {number} itemsPerSheet - Количество одинаковых варианта на спуске.
- * @property {number} numLabels - Количество одинаковы видов на спуске.
- */
-const INITIAL_VARIANT: Variant = {
-  id: Date.now(),
-  totalQuantity: 1,
-  itemsPerSheet: 1,
-  numLabels: 1,
-};
 const INITIAL_EXTRA_COPIES = 0;
 
-interface Variant {
-  id: number;
-  totalQuantity: number;
-  itemsPerSheet: number;
-  numLabels: number;
-}
-
 const CopyCalculator = () => {
-  const [variants, setVariants] = useState<Variant[]>([INITIAL_VARIANT]);
+  const {
+    variants,
+    setVariantField,
+    addVariant,
+    removeVariant,
+    resetVariants,
+  } = useVariants();
   const [extraCopies, setExtraCopies] = useState<number>(INITIAL_EXTRA_COPIES);
   const [remainingItems, setRemainingItems] = useState<number>(0);
   const [maxCopies, setMaxCopies] = useState<number>(0);
@@ -47,18 +33,11 @@ const CopyCalculator = () => {
     () => formatMultiVariant(variants, maxCopies),
     [variants, maxCopies]
   );
+
   const formatVariantStringWithCopies = `${formattedVariants}_${maxCopies} copies`;
 
-  const handleAddVariant = () => setVariants((prev) => addVariant(prev));
-
-  const handleRemoveVariant = (id: number) =>
-    setVariants((prev) => removeVariant(prev, id));
-
-  const handleUpdateVariant = (id: number, key: keyof Variant, value: number) =>
-    setVariants((prev) => updateVariant(prev, id, key, value));
-
   const resetAppState = () => {
-    setVariants([INITIAL_VARIANT]);
+    resetVariants();
     setExtraCopies(INITIAL_EXTRA_COPIES);
     setTotalItemsCount(0);
     setRemainingItems(0);
@@ -114,7 +93,7 @@ const CopyCalculator = () => {
           remainingItems={remainingItems}
           dynamicString={formatVariantStringWithCopies}
           onCopy={() => copyToClipboard(formatVariantStringWithCopies)}
-          addVariant={handleAddVariant}
+          addVariant={addVariant}
           totalItemsCount={totalItemsCount}
           itemsAddedCount={0}
           extraCopies={extraCopies}
@@ -141,15 +120,15 @@ const CopyCalculator = () => {
           numLabels={variant.numLabels}
           disabled={variants.length === 1}
           counterVariant={index + 1}
-          onDelete={() => handleRemoveVariant(variant.id)}
+          onDelete={() => removeVariant(variant.id)}
           onTotalQuantityChange={(value) =>
-            handleUpdateVariant(variant.id, "totalQuantity", value)
+            setVariantField(variant.id, "totalQuantity", value)
           }
           onItemsPerSheetChange={(value) =>
-            handleUpdateVariant(variant.id, "itemsPerSheet", value)
+            setVariantField(variant.id, "itemsPerSheet", value)
           }
           onNumLabelsChange={(value) =>
-            handleUpdateVariant(variant.id, "numLabels", value)
+            setVariantField(variant.id, "numLabels", value)
           }
         />
       ))}
