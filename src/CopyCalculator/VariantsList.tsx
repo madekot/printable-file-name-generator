@@ -1,4 +1,4 @@
-import VariantForm from "../../VariantForm/VariantForm";
+import VariantForm from "../VariantForm/VariantForm";
 
 interface Variant {
   id: number;

@@ -7,11 +7,11 @@ import { copyToClipboard } from "./utils";
 import { LayoutComponent } from "./LayoutComponent";
 import { useVariants } from "./utils/useVariants";
 import { useExtraCopies } from "./utils/useExtraCopies";
-import { useMaxCopies } from "./utils/useMaxCopies";
+import { getMaxCopies } from "./utils/getMaxCopies";
 import { useTotalItemsCount } from "./utils/useTotalItemsCount";
 import { useRemainingItems } from "./utils/useRemainingItems";
-import { useFormattedVariantString } from "./utils/useFormattedVariants";
-import { VariantsList } from "./utils/VariantsList";
+import { getFormatMultiVariantWithCopies } from "./utils/getFormatMultiVariantWithCopies";
+import { VariantsList } from "./VariantsList";
 
 const CopyCalculator = () => {
   const {
@@ -23,10 +23,10 @@ const CopyCalculator = () => {
   } = useVariants();
 
   const { setExtraCopies, resetExtraCopies, extraCopies } = useExtraCopies();
-  const maxCopies = useMaxCopies(variants, extraCopies);
+  const maxCopies = getMaxCopies(variants, extraCopies);
   const totalItemsCount = useTotalItemsCount(variants);
 
-  const formatVariantStringWithCopies = useFormattedVariantString(
+  const formatVariantStringWithCopies = getFormatMultiVariantWithCopies(
     variants,
     maxCopies
   );
