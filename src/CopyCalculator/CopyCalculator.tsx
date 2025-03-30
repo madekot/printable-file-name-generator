@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
 import CalculationResult from "../CalculationResult/CalculationResult";
 import InputField from "../InputField/InputField";
 import { Logo } from "../Logo/Logo";
@@ -12,6 +12,7 @@ import {
 } from "./utils";
 import { LayoutComponent } from "./LayoutComponent";
 import VariantForm from "../VariantForm/VariantForm";
+import { addVariant, removeVariant, updateVariant } from "./utils/variantCRUD";
 
 /**
  * Начальные значения для нового варианта печати.
@@ -35,7 +36,7 @@ interface Variant {
   numLabels: number;
 }
 
-const CopyCalculator: React.FC = () => {
+const CopyCalculator = () => {
   const [variants, setVariants] = useState<Variant[]>([INITIAL_VARIANT]);
   const [extraCopies, setExtraCopies] = useState<number>(INITIAL_EXTRA_COPIES);
   const [remainingItems, setRemainingItems] = useState<number>(0);
@@ -48,32 +49,13 @@ const CopyCalculator: React.FC = () => {
   );
   const formatVariantStringWithCopies = `${formattedVariants}_${maxCopies} copies`;
 
-  const addVariant = useCallback(() => {
-    setVariants((prev) => [
-      ...prev,
-      {
-        id: Date.now(),
-        totalQuantity: 1,
-        itemsPerSheet: 1,
-        numLabels: 1,
-      },
-    ]);
-  }, []);
+  const handleAddVariant = () => setVariants((prev) => addVariant(prev));
 
-  const removeVariant = useCallback((id: number) => {
-    setVariants((prev) => prev.filter((variant) => variant.id !== id));
-  }, []);
+  const handleRemoveVariant = (id: number) =>
+    setVariants((prev) => removeVariant(prev, id));
 
-  const updateVariant = useCallback(
-    (id: number, key: keyof Variant, value: number) => {
-      setVariants((prev) =>
-        prev.map((variant) =>
-          variant.id === id ? { ...variant, [key]: value } : variant
-        )
-      );
-    },
-    []
-  );
+  const handleUpdateVariant = (id: number, key: keyof Variant, value: number) =>
+    setVariants((prev) => updateVariant(prev, id, key, value));
 
   const resetAppState = () => {
     setVariants([INITIAL_VARIANT]);
@@ -132,7 +114,7 @@ const CopyCalculator: React.FC = () => {
           remainingItems={remainingItems}
           dynamicString={formatVariantStringWithCopies}
           onCopy={() => copyToClipboard(formatVariantStringWithCopies)}
-          addVariant={addVariant}
+          addVariant={handleAddVariant}
           totalItemsCount={totalItemsCount}
           itemsAddedCount={0}
           extraCopies={extraCopies}
@@ -159,15 +141,15 @@ const CopyCalculator: React.FC = () => {
           numLabels={variant.numLabels}
           disabled={variants.length === 1}
           counterVariant={index + 1}
-          onDelete={() => removeVariant(variant.id)}
+          onDelete={() => handleRemoveVariant(variant.id)}
           onTotalQuantityChange={(value) =>
-            updateVariant(variant.id, "totalQuantity", value)
+            handleUpdateVariant(variant.id, "totalQuantity", value)
           }
           onItemsPerSheetChange={(value) =>
-            updateVariant(variant.id, "itemsPerSheet", value)
+            handleUpdateVariant(variant.id, "itemsPerSheet", value)
           }
           onNumLabelsChange={(value) =>
-            updateVariant(variant.id, "numLabels", value)
+            handleUpdateVariant(variant.id, "numLabels", value)
           }
         />
       ))}
