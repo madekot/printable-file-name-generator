@@ -1,19 +1,17 @@
-import { useState, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import CalculationResult from "../CalculationResult/CalculationResult";
 import InputField from "../InputField/InputField";
 import { Logo } from "../Logo/Logo";
 import ButtonConfirmable from "../ButtonConfirmable/ButtonConfirmable";
 import styles from "./CopyCalculator.module.scss";
-import {
-  calculateTotalCopies,
-  calculateRemainingItems,
-  copyToClipboard,
-  formatMultiVariant,
-} from "./utils";
+import { copyToClipboard, formatMultiVariant } from "./utils";
 import { LayoutComponent } from "./LayoutComponent";
 import VariantForm from "../VariantForm/VariantForm";
 import { useVariants } from "./utils/useVariants";
 import { useExtraCopies } from "./utils/useExtraCopies";
+import { useMaxCopies } from "./utils/useMaxCopies";
+import { useTotalItemsCount } from "./utils/useTotalItemsCount";
+import { useRemainingItems } from "./utils/useRemainingItems";
 
 const CopyCalculator = () => {
   const {
@@ -25,10 +23,14 @@ const CopyCalculator = () => {
   } = useVariants();
 
   const { setExtraCopies, resetExtraCopies, extraCopies } = useExtraCopies();
+  const maxCopies = useMaxCopies(variants, extraCopies);
+  const totalItemsCount = useTotalItemsCount(variants);
 
-  const [remainingItems, setRemainingItems] = useState<number>(0);
-  const [maxCopies, setMaxCopies] = useState<number>(0);
-  const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
+  const remainingItems = useRemainingItems(
+    totalItemsCount,
+    maxCopies,
+    variants
+  );
 
   const formattedVariants = useMemo(
     () => formatMultiVariant(variants, maxCopies),
@@ -40,40 +42,7 @@ const CopyCalculator = () => {
   const resetAppState = () => {
     resetVariants();
     resetExtraCopies();
-    setTotalItemsCount(0);
-    setRemainingItems(0);
   };
-
-  useEffect(() => {
-    const getMaxCopies = () => {
-      return Math.max(
-        ...variants.map((variant) =>
-          calculateTotalCopies(
-            variant.totalQuantity,
-            variant.itemsPerSheet,
-            extraCopies
-          )
-        )
-      );
-    };
-
-    setMaxCopies(getMaxCopies());
-
-    const totalQuantity = variants.reduce(
-      (sum, variant) => sum + variant.totalQuantity * variant.numLabels,
-      0
-    );
-    const itemsPerSheet = variants.reduce(
-      (sum, variant) => sum + variant.itemsPerSheet * variant.numLabels,
-      0
-    );
-
-    setTotalItemsCount(totalQuantity);
-
-    setRemainingItems(
-      calculateRemainingItems(totalQuantity, itemsPerSheet, maxCopies)
-    );
-  }, [variants, maxCopies, extraCopies]);
 
   return (
     <LayoutComponent
