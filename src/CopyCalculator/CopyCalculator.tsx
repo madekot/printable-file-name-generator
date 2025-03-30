@@ -13,8 +13,7 @@ import {
 import { LayoutComponent } from "./LayoutComponent";
 import VariantForm from "../VariantForm/VariantForm";
 import { useVariants } from "./utils/useVariants";
-
-const INITIAL_EXTRA_COPIES = 0;
+import { useExtraCopies } from "./utils/useExtraCopies";
 
 const CopyCalculator = () => {
   const {
@@ -24,7 +23,9 @@ const CopyCalculator = () => {
     removeVariant,
     resetVariants,
   } = useVariants();
-  const [extraCopies, setExtraCopies] = useState<number>(INITIAL_EXTRA_COPIES);
+
+  const { setExtraCopies, resetExtraCopies, extraCopies } = useExtraCopies();
+
   const [remainingItems, setRemainingItems] = useState<number>(0);
   const [maxCopies, setMaxCopies] = useState<number>(0);
   const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
@@ -38,7 +39,7 @@ const CopyCalculator = () => {
 
   const resetAppState = () => {
     resetVariants();
-    setExtraCopies(INITIAL_EXTRA_COPIES);
+    resetExtraCopies();
     setTotalItemsCount(0);
     setRemainingItems(0);
   };
@@ -105,9 +106,7 @@ const CopyCalculator = () => {
           value={extraCopies}
           placeholder={String(extraCopies)}
           type="number"
-          onChange={(e) =>
-            setExtraCopies(Math.max(parseInt(e.target.value, 10) || 0, 0))
-          }
+          onChange={(e) => setExtraCopies(Number(e.target.value))}
           min={0}
         />
       }

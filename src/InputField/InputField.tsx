@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import styles from "./InputField.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   createEnforcedMinBlur,
   createFilteredChange,
@@ -23,6 +23,10 @@ const InputField: React.FC<InputFieldProps> = ({
   className,
 }) => {
   const [internalValue, setInternalValue] = useState(value.toString());
+
+  useEffect(() => {
+    setInternalValue(value.toString());
+  }, [value]);
 
   const { handleChange } = createFilteredChange(
     setInternalValue,
