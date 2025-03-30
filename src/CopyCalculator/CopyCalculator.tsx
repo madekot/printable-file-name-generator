@@ -1,17 +1,17 @@
-import { useMemo } from "react";
 import CalculationResult from "../CalculationResult/CalculationResult";
 import InputField from "../InputField/InputField";
 import { Logo } from "../Logo/Logo";
 import ButtonConfirmable from "../ButtonConfirmable/ButtonConfirmable";
 import styles from "./CopyCalculator.module.scss";
-import { copyToClipboard, formatMultiVariant } from "./utils";
+import { copyToClipboard } from "./utils";
 import { LayoutComponent } from "./LayoutComponent";
-import VariantForm from "../VariantForm/VariantForm";
 import { useVariants } from "./utils/useVariants";
 import { useExtraCopies } from "./utils/useExtraCopies";
 import { useMaxCopies } from "./utils/useMaxCopies";
 import { useTotalItemsCount } from "./utils/useTotalItemsCount";
 import { useRemainingItems } from "./utils/useRemainingItems";
+import { useFormattedVariantString } from "./utils/useFormattedVariants";
+import { VariantsList } from "./utils/VariantsList";
 
 const CopyCalculator = () => {
   const {
@@ -26,18 +26,16 @@ const CopyCalculator = () => {
   const maxCopies = useMaxCopies(variants, extraCopies);
   const totalItemsCount = useTotalItemsCount(variants);
 
+  const formatVariantStringWithCopies = useFormattedVariantString(
+    variants,
+    maxCopies
+  );
+
   const remainingItems = useRemainingItems(
     totalItemsCount,
     maxCopies,
     variants
   );
-
-  const formattedVariants = useMemo(
-    () => formatMultiVariant(variants, maxCopies),
-    [variants, maxCopies]
-  );
-
-  const formatVariantStringWithCopies = `${formattedVariants}_${maxCopies} copies`;
 
   const resetAppState = () => {
     resetVariants();
@@ -80,26 +78,13 @@ const CopyCalculator = () => {
         />
       }
       variantsTitle="Варианты раскладки на листе"
-      variantsList={variants.map((variant, index) => (
-        <VariantForm
-          key={variant.id}
-          totalQuantity={variant.totalQuantity}
-          itemsPerSheet={variant.itemsPerSheet}
-          numLabels={variant.numLabels}
-          disabled={variants.length === 1}
-          counterVariant={index + 1}
-          onDelete={() => removeVariant(variant.id)}
-          onTotalQuantityChange={(value) =>
-            setVariantField(variant.id, "totalQuantity", value)
-          }
-          onItemsPerSheetChange={(value) =>
-            setVariantField(variant.id, "itemsPerSheet", value)
-          }
-          onNumLabelsChange={(value) =>
-            setVariantField(variant.id, "numLabels", value)
-          }
+      variantsList={
+        <VariantsList
+          variants={variants}
+          setVariantField={setVariantField}
+          removeVariant={removeVariant}
         />
-      ))}
+      }
     />
   );
 };
