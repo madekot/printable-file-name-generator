@@ -7,7 +7,7 @@
     "react",
     "starter"
   ],
-  "main": "src/main.tsx",
+  "main": "src/app/index.tsx",
   "dependencies": {
     "@types/react": "^19.0.10",
     "clsx": "2.1.1",
