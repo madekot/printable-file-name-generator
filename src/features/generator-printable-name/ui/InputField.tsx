@@ -1,0 +1,52 @@
+import { useEffect, useState } from "react";
+import {
+  createEnforcedMinBlur,
+  createFilteredChange,
+  filterInvalidChars,
+} from "@shared/lib/input-utils";
+import InputFieldShared from "@shared/ui/InputField";
+
+interface InputFieldProps extends React.HTMLProps<HTMLDivElement> {
+  label: string;
+  value: number;
+  min: number;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+}
+
+const InputField: React.FC<InputFieldProps> = ({
+  label,
+  value,
+  onChange,
+  min,
+  placeholder,
+  className,
+}) => {
+  const [internalValue, setInternalValue] = useState(value.toString());
+
+  useEffect(() => {
+    setInternalValue(value.toString());
+  }, [value]);
+
+  const { handleChange } = createFilteredChange(
+    setInternalValue,
+    filterInvalidChars,
+    onChange
+  );
+
+  const { handleBlur } = createEnforcedMinBlur(setInternalValue, min);
+
+  return (
+    <InputFieldShared
+      label={label}
+      placeholder={placeholder}
+      inputMode="numeric"
+      type="text"
+      value={internalValue}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      wrapperClassName={className}
+    />
+  );
+};
+
+export default InputField;

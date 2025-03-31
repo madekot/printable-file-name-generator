@@ -1,5 +1,11 @@
+import { GeneratorPrintableName } from "@features/generator-printable-name";
+
 const App = () => {
-  return <div>HELLO FSD</div>;
+  return (
+    <div>
+      <GeneratorPrintableName />
+    </div>
+  );
 };
 
 export default App;
