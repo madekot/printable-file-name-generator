@@ -8,6 +8,7 @@ interface LayoutComponentProps {
   calculationResult: React.ReactNode;
   extraCopiesInput: React.ReactNode;
   variantsList: React.ReactNode;
+  orderName: React.ReactNode;
 }
 
 const LayoutComponent: React.FC<LayoutComponentProps> = ({
@@ -18,6 +19,7 @@ const LayoutComponent: React.FC<LayoutComponentProps> = ({
   calculationResult,
   extraCopiesInput,
   variantsList,
+  orderName,
 }) => {
   return (
     <div className={styles.container}>
@@ -30,7 +32,8 @@ const LayoutComponent: React.FC<LayoutComponentProps> = ({
       {calculationResult}
 
       <div className={styles.headerBox}>
-        <form className={styles.column}>{extraCopiesInput}</form>
+        <div className={styles.column}>{extraCopiesInput}</div>
+        <div className={styles.column}>{orderName}</div>
       </div>
 
       <div className={styles.varintsBox}>

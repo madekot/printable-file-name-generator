@@ -9,11 +9,18 @@ import { useVariants } from "../model/useVariants";
 import { useExtraCopies } from "../model/useExtraCopies";
 import { useTotalItemsCount } from "../model/useTotalItemsCount";
 import { useRemainingItems } from "../model/useRemainingItems";
+import { usePrintableFileName } from "../model/usePrintableFileName";
 import { getMaxCopies } from "../lib/getMaxCopies";
-import { getFormatMultiVariantWithCopies } from "../lib/getFormatMultiVariantWithCopies";
 import { copyToClipboard } from "../lib/copyToClipboard";
+import { usePrintJobStore } from "@entities/print-job";
 
-const CopyCalculatorContainer = () => {
+interface CopyCalculatorContainerProps {
+  orderNameSlot: React.ReactNode;
+}
+
+const CopyCalculatorContainer = ({
+  orderNameSlot,
+}: CopyCalculatorContainerProps) => {
   const {
     variants,
     setVariantField,
@@ -25,11 +32,8 @@ const CopyCalculatorContainer = () => {
   const { setExtraCopies, resetExtraCopies, extraCopies } = useExtraCopies();
   const maxCopies = getMaxCopies(variants, extraCopies);
   const totalItemsCount = useTotalItemsCount(variants);
-
-  const formatVariantStringWithCopies = getFormatMultiVariantWithCopies(
-    variants,
-    maxCopies
-  );
+  const printableFileName = usePrintableFileName(variants, maxCopies);
+  const { resetOrderName } = usePrintJobStore();
 
   const remainingItems = useRemainingItems(
     totalItemsCount,
@@ -40,6 +44,7 @@ const CopyCalculatorContainer = () => {
   const resetAppState = () => {
     resetVariants();
     resetExtraCopies();
+    resetOrderName();
   };
 
   return (
@@ -59,14 +64,15 @@ const CopyCalculatorContainer = () => {
         <CalculationResult
           totalCopies={maxCopies}
           remainingItems={remainingItems}
-          dynamicString={formatVariantStringWithCopies}
-          onCopy={() => copyToClipboard(formatVariantStringWithCopies)}
+          dynamicString={printableFileName}
+          onCopy={() => copyToClipboard(printableFileName)}
           addVariant={addVariant}
           totalItemsCount={totalItemsCount}
           itemsAddedCount={0}
           extraCopies={extraCopies}
         />
       }
+      orderName={orderNameSlot}
       extraCopiesInput={
         <InputField
           label="Приладка:"
