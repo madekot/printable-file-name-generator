@@ -67,3 +67,9 @@
   border-radius: 10px;
   background: linear-gradient(180deg, gray, lightGray);
 }
+
+.headerBox {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
