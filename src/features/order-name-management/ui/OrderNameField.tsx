@@ -1,20 +1,24 @@
 import style from "./OrderNameField.module.scss";
+import { useOrderName } from "../model/useOrderName";
 import InputField from "@shared/ui/InputField";
-import { usePrintJobStore } from "@entities/print-job";
+import { replaceSpacesWithUnderscore } from "@shared/lib/utils.string";
 
 const OrderNameField = () => {
-  const { orderName, setOrderName } = usePrintJobStore();
+  const { orderNameLocal, setOrderNameLocal, setOrderName } = useOrderName();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setOrderName(e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    setOrderNameLocal(inputValue);
+    setOrderName(replaceSpacesWithUnderscore(inputValue));
   };
 
   return (
     <div className={style.orderNameField}>
       <InputField
         label={"Имя заказа"}
-        value={orderName}
-        onChange={handleInputChange}
+        value={orderNameLocal}
+        placeholder={"Напишите имя заказа"}
+        onChange={handleChange}
       />
     </div>
   );

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { devtools } from "zustand/middleware";
 
 interface PrintJobStoreStore {
   printableFileName: string;
@@ -8,13 +9,15 @@ interface PrintJobStoreStore {
   resetOrderName: () => void;
 }
 
-const usePrintJobStore = create<PrintJobStoreStore>((set) => ({
-  printableFileName: "",
-  orderName: "",
-  setPrintableFileName: (name: string) =>
-    set(() => ({ printableFileName: name })),
-  setOrderName: (name: string) => set(() => ({ orderName: name })),
-  resetOrderName: () => set(() => ({ orderName: "" })),
-}));
+const usePrintJobStore = create<PrintJobStoreStore>()(
+  devtools((set) => ({
+    printableFileName: "",
+    orderName: "",
+    setPrintableFileName: (name: string) =>
+      set(() => ({ printableFileName: name })),
+    setOrderName: (name: string) => set(() => ({ orderName: name })),
+    resetOrderName: () => set(() => ({ orderName: "" })),
+  }))
+);
 
 export default usePrintJobStore;
