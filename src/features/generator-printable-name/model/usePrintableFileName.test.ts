@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import { usePrintableFileName } from "./usePrintableFileName"; // Путь к твоему хуку
+import { usePrintableFileName } from "./usePrintableFileName";
 import { usePrintJobStore } from "@entities/print-job";
 import { Variant } from "../model/types";
 

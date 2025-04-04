@@ -22,6 +22,7 @@
             "@widgets/*": ["./widgets/*"],     // Для виджетов
             "@shared/*": ["./shared/*"],       // Для общего кода
             "@pages/*": ["./pages/*"]          // Если есть страницы (Next.js)
-        }
+        },
+        "types": ["node", "jest", "@testing-library/jest-dom"]
     }
 }
