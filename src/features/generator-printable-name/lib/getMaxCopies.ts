@@ -9,6 +9,7 @@ export const getMaxCopies = (variants: Variant[], extraCopies: number) => {
         variant.itemsPerSheet,
         extraCopies
       )
-    )
+    ),
+    0
   );
 };
