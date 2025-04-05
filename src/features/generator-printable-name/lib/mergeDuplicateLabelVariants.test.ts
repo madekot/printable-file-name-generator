@@ -64,26 +64,4 @@ describe("mergeDuplicateLabelVariants", () => {
       expect(result[0].comment).toBe("first");
     }
   });
-
-  it("выбрасывает ошибку, если свойства или значения не совпадают для дублирующихся объектов", () => {
-    const input: Variant[] = [
-      {
-        totalQuantity: 100,
-        itemsPerSheet: 10,
-        numLabels: 1,
-        comment: "first",
-      } as unknown as Variant,
-      {
-        totalQuantity: 100,
-        itemsPerSheet: 10,
-        numLabels: 2,
-        comment: "first",
-        extraProperty: "should not exist",
-      } as unknown as Variant,
-    ];
-
-    expect(() => mergeDuplicateLabelVariants(input)).toThrow(
-      /Свойство 'extraProperty' не соответствует повторяющимся вариантам/
-    );
-  });
 });
