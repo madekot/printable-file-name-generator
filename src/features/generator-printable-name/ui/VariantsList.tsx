@@ -1,7 +1,7 @@
 import { Variant } from "../model/types";
 import VariantForm from "./VariantForm";
 
-type VariantField = "totalQuantity" | "itemsPerSheet" | "numLabels";
+type VariantField = "totalQuantity" | "itemsPerSheet";
 
 type UseVariantsReturn = {
   variants: Variant[];
@@ -27,9 +27,6 @@ const VariantsList = ({
         }
         onItemsPerSheetChange={(value) =>
           setVariantField(variant.id, "itemsPerSheet", value)
-        }
-        onNumLabelsChange={(value) =>
-          setVariantField(variant.id, "numLabels", value)
         }
       />
     ))}

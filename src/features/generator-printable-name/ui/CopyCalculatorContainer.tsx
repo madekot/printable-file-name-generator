@@ -10,6 +10,7 @@ import { useExtraCopies } from "../model/useExtraCopies";
 import { useTotalItemsCount } from "../model/useTotalItemsCount";
 import { useRemainingItems } from "../model/useRemainingItems";
 import { usePrintableFileName } from "../model/usePrintableFileName";
+import { useMergedVariants } from "../model/useMergedVarian";
 import { getMaxCopies } from "../lib/getMaxCopies";
 import { copyToClipboard } from "../lib/copyToClipboard";
 import { usePrintJobStore } from "@entities/print-job";
@@ -32,7 +33,8 @@ const CopyCalculatorContainer = ({
   const { setExtraCopies, resetExtraCopies, extraCopies } = useExtraCopies();
   const maxCopies = getMaxCopies(variants, extraCopies);
   const totalItemsCount = useTotalItemsCount(variants);
-  const printableFileName = usePrintableFileName(variants, maxCopies);
+  const mergedVariants = useMergedVariants(variants);
+  const printableFileName = usePrintableFileName(mergedVariants, maxCopies);
   const { resetOrderName } = usePrintJobStore();
 
   const remainingItems = useRemainingItems(

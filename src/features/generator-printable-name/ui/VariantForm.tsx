@@ -8,24 +8,20 @@ const MIN_VALUE = 1;
 interface VariantFormProps {
   totalQuantity: number;
   itemsPerSheet: number;
-  numLabels: number;
   disabled?: boolean;
   counterVariant: number;
   onTotalQuantityChange: (value: number) => void;
   onItemsPerSheetChange: (value: number) => void;
-  onNumLabelsChange: (value: number) => void;
   onDelete: () => void;
 }
 
 const VariantForm: React.FC<VariantFormProps> = ({
   totalQuantity,
   itemsPerSheet,
-  numLabels,
   disabled,
   counterVariant,
   onTotalQuantityChange,
   onItemsPerSheetChange,
-  onNumLabelsChange,
   onDelete,
 }) => {
   return (
@@ -52,17 +48,6 @@ const VariantForm: React.FC<VariantFormProps> = ({
             type="number"
             onChange={(e) =>
               onItemsPerSheetChange(Math.max(Number(e.target.value), MIN_VALUE))
-            }
-            min={MIN_VALUE}
-          />
-          <InputField
-            className={styles.input}
-            label="Одинаковых видов:"
-            value={numLabels}
-            placeholder={String(numLabels)}
-            type="number"
-            onChange={(e) =>
-              onNumLabelsChange(Math.max(Number(e.target.value), MIN_VALUE))
             }
             min={MIN_VALUE}
           />
