@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Variant } from "./types";
+import { useObserverReset } from "@entities/reset-manager";
 
 /**
  * Начальные значения для нового варианта спуска.
@@ -31,6 +32,8 @@ export function useVariants(initialVariants: Variant[] = [INITIAL_VARIANT]) {
 
   const resetVariants = () =>
     setVariants([{ ...INITIAL_VARIANT, id: Date.now() }]);
+
+  useObserverReset(resetVariants);
 
   return {
     variants,

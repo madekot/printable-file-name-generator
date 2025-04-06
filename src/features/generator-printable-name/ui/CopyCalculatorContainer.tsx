@@ -3,7 +3,6 @@ import CalculationResult from "./CalculationResult";
 import VariantsList from "./VariantsList";
 import InputField from "./InputField";
 import Logo from "./Logo";
-import ButtonConfirmable from "./ButtonConfirmable";
 import LayoutComponent from "./LayoutComponent";
 import { useVariants } from "../model/useVariants";
 import { useExtraCopies } from "../model/useExtraCopies";
@@ -13,29 +12,24 @@ import { usePrintableFileName } from "../model/usePrintableFileName";
 import { useMergedVariants } from "../model/useMergedVarian";
 import { getMaxCopies } from "../lib/getMaxCopies";
 import { copyToClipboard } from "../lib/copyToClipboard";
-import { usePrintJobStore } from "@entities/print-job";
 
 interface CopyCalculatorContainerProps {
   orderNameSlot: React.ReactNode;
+  ButtonResetGenerator: React.ComponentType<{ className: string }>;
 }
 
 const CopyCalculatorContainer = ({
   orderNameSlot,
+  ButtonResetGenerator,
 }: CopyCalculatorContainerProps) => {
-  const {
-    variants,
-    setVariantField,
-    addVariant,
-    removeVariant,
-    resetVariants,
-  } = useVariants();
+  const { variants, setVariantField, addVariant, removeVariant } =
+    useVariants();
 
-  const { setExtraCopies, resetExtraCopies, extraCopies } = useExtraCopies();
+  const { setExtraCopies, extraCopies } = useExtraCopies();
   const maxCopies = getMaxCopies(variants, extraCopies);
   const totalItemsCount = useTotalItemsCount(variants);
   const mergedVariants = useMergedVariants(variants);
   const printableFileName = usePrintableFileName(mergedVariants, maxCopies);
-  const { resetOrderName } = usePrintJobStore();
 
   const remainingItems = useRemainingItems(
     totalItemsCount,
@@ -43,24 +37,10 @@ const CopyCalculatorContainer = ({
     variants
   );
 
-  const resetAppState = () => {
-    resetVariants();
-    resetExtraCopies();
-    resetOrderName();
-  };
-
   return (
     <LayoutComponent
       title="Генератор имени файла для печати"
-      resetButton={
-        <ButtonConfirmable
-          onConfirm={resetAppState}
-          confirmMessage="Вы уверены, что хотите сбросить настройки приложения?"
-          buttonText="Очистить результат"
-          variant="red"
-          className={styles.btnReset}
-        />
-      }
+      resetButton={<ButtonResetGenerator className={styles.btnReset} />}
       logo={<Logo className={styles.logo} />}
       calculationResult={
         <CalculationResult

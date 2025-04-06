@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useObserverReset } from "@entities/reset-manager";
 
 const INITIAL_EXTRA_COPIES = 0;
 
@@ -15,9 +16,11 @@ export const useExtraCopies = (initialValue: number = INITIAL_EXTRA_COPIES) => {
     _setExtraCopies(INITIAL_EXTRA_COPIES);
   };
 
+  useObserverReset(resetExtraCopies);
+
   return {
     extraCopies,
-    setExtraCopies,
     resetExtraCopies,
+    setExtraCopies,
   };
 };
