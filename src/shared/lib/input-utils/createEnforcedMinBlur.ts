@@ -4,7 +4,7 @@ export function createEnforcedMinBlur(
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void
 ) {
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (!(Number(e.target.value) < min)) {
+    if (!(Number(e.target.value) <= min)) {
       onBlur?.(e);
       return;
     }

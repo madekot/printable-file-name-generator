@@ -1,4 +1,4 @@
-import StrictNumericInputField from "@shared/ui/StrictNumericInputField";
+import StrictNumericInputField from "./StrictNumericInputField";
 import styles from "./VariantForm.module.scss";
 import Button from "@shared/ui/Button";
 

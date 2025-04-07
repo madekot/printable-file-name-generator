@@ -4,7 +4,7 @@ import {
   createFilteredChange,
   filterInvalidChars,
 } from "@shared/lib/input-utils";
-import InputFieldShared from "@shared/ui/InputField";
+import InputField from "@shared/ui/InputField";
 
 interface InputFieldProps extends React.HTMLProps<HTMLDivElement> {
   label: string;
@@ -32,11 +32,11 @@ const StrictNumericInputField: React.FC<InputFieldProps> = ({
   const { handleBlur } = createEnforcedMinBlur(setInternalValue, min);
 
   return (
-    <InputFieldShared
+    <InputField
       label={label}
       placeholder={placeholder}
       inputMode="numeric"
-      type="text"
+      type="number"
       value={internalValue}
       onChange={handleChange}
       onBlur={handleBlur}

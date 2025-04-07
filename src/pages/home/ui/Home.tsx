@@ -6,7 +6,7 @@ import {
   VariantsList,
   ButtonAddVariant,
   useVariants,
-} from "@features/print-name-generator/variant";
+} from "@features/print-name-generator/variant-management";
 import { ButtonResetGenerator } from "@features/print-name-generator/reset-generator-name";
 import {
   CalculationResult,
@@ -14,10 +14,10 @@ import {
   useRemainingItems,
   usePrintableFileName,
   useMergedVariants,
+  CopyToClipboardButton,
 } from "@features/print-name-generator/calculation-result";
 import OrderNameField from "@features/print-name-generator/order-name-management";
 import { Logo } from "@shared/ui/Logo";
-import CopyToClipboardButton from "@features/print-name-generator/calculation-result/ui/CopyToClipboardButton";
 
 const Home = () => {
   const { variants, setVariantField, addVariant, removeVariant } = useVariants();
