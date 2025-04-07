@@ -13,7 +13,7 @@ interface InputFieldProps extends React.HTMLProps<HTMLDivElement> {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-const InputField: React.FC<InputFieldProps> = ({
+const StrictNumericInputField: React.FC<InputFieldProps> = ({
   label,
   value,
   onChange,
@@ -45,4 +45,4 @@ const InputField: React.FC<InputFieldProps> = ({
   );
 };
 
-export default InputField;
+export default StrictNumericInputField;

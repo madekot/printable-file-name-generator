@@ -1,6 +1,4 @@
 import styles from "./CalculationResult.module.scss";
-import Button from "@shared/ui/Button";
-import { copyToClipboard } from "@features/print-name-generator/calculation-result/lib/copyToClipboard";
 
 interface CalculationResultProps {
   totalCopies: number;
@@ -9,6 +7,7 @@ interface CalculationResultProps {
   totalItemsCount: number;
   extraCopies: number;
   addVariantButton: React.ReactNode;
+  copyToClipboardButton: React.ReactNode;
 }
 
 const CalculationResult: React.FC<CalculationResultProps> = ({
@@ -18,6 +17,7 @@ const CalculationResult: React.FC<CalculationResultProps> = ({
   totalItemsCount,
   extraCopies,
   addVariantButton,
+  copyToClipboardButton,
 }) => {
   return (
     <div className={styles.result}>
@@ -44,13 +44,7 @@ const CalculationResult: React.FC<CalculationResultProps> = ({
           <b className={styles.dynamicString}>{dynamicString}</b>
         </div>
         {addVariantButton}
-        <Button
-          onClick={() => copyToClipboard(dynamicString)}
-          className={styles.copyBtn}
-          variant="green"
-        >
-          Копировать имя
-        </Button>
+        {copyToClipboardButton}
       </div>
     </div>
   );

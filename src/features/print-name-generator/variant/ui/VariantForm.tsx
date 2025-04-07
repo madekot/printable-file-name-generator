@@ -1,5 +1,4 @@
-import React from "react";
-import InputField from "./InputField";
+import StrictNumericInputField from "@shared/ui/StrictNumericInputField";
 import styles from "./VariantForm.module.scss";
 import Button from "@shared/ui/Button";
 
@@ -29,21 +28,19 @@ const VariantForm: React.FC<VariantFormProps> = ({
       <div className={styles.title}>Вариант №{counterVariant}</div>
       <div className={styles.variantItem}>
         <div className={styles.fields}>
-          <InputField
+          <StrictNumericInputField
             className={styles.input}
             label="Тираж варианта"
             value={totalQuantity}
             placeholder={String(totalQuantity)}
-            type="number"
             onChange={(e) => onTotalQuantityChange(Math.max(Number(e.target.value), MIN_VALUE))}
             min={MIN_VALUE}
           />
-          <InputField
+          <StrictNumericInputField
             className={styles.input}
             label="Изделий варианта на&nbsp;листе:"
             value={itemsPerSheet}
             placeholder={String(itemsPerSheet)}
-            type="number"
             onChange={(e) => onItemsPerSheetChange(Math.max(Number(e.target.value), MIN_VALUE))}
             min={MIN_VALUE}
           />

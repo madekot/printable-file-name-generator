@@ -1,4 +1,4 @@
-import InputField from "@features/print-name-generator/variant/ui/InputField";
+import StrictNumericInputField from "@shared/ui/StrictNumericInputField";
 
 interface BonusCopiesFieldProps {
   extraCopies: number;
@@ -7,7 +7,7 @@ interface BonusCopiesFieldProps {
 
 const BonusCopiesField = ({ extraCopies, onChange }: BonusCopiesFieldProps) => {
   return (
-    <InputField
+    <StrictNumericInputField
       label="Приладка:"
       value={extraCopies}
       placeholder={String(extraCopies)}
