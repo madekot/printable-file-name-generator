@@ -7,9 +7,15 @@ type UseVariantsReturn = {
   variants: Variant[];
   setVariantField: (id: number, field: VariantField, value: number) => void;
   removeVariant: (id: number) => void;
+  renderCloneButton?: (id: number) => React.ReactNode;
 };
 
-const VariantsList = ({ variants, removeVariant, setVariantField }: UseVariantsReturn) => (
+const VariantsList = ({
+  variants,
+  removeVariant,
+  setVariantField,
+  renderCloneButton,
+}: UseVariantsReturn) => (
   <>
     {variants.map((variant, index) => (
       <VariantForm
@@ -20,6 +26,7 @@ const VariantsList = ({ variants, removeVariant, setVariantField }: UseVariantsR
         onDelete={() => removeVariant(variant.id)}
         onTotalQuantityChange={(value) => setVariantField(variant.id, "totalQuantity", value)}
         onItemsPerSheetChange={(value) => setVariantField(variant.id, "itemsPerSheet", value)}
+        cloneVariantButton={renderCloneButton?.(variant.id)}
       />
     ))}
   </>

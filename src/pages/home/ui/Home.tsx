@@ -6,6 +6,7 @@ import {
   VariantsList,
   ButtonAddVariant,
   useVariants,
+  CloneVariantButton,
 } from "@features/print-name-generator/variant-management";
 import { ButtonResetGenerator } from "@features/print-name-generator/reset-generator-name";
 import {
@@ -20,7 +21,7 @@ import OrderNameField from "@features/print-name-generator/order-name-management
 import { Logo } from "@shared/ui/Logo";
 
 const Home = () => {
-  const { variants, setVariantField, addVariant, removeVariant } = useVariants();
+  const { variants, setVariantField, addVariant, removeVariant, cloneVariant } = useVariants();
   const { setExtraCopies, extraCopies } = useExtraCopies();
   const maxCopies = getMaxCopies(variants, extraCopies);
   const totalItemsCount = useTotalItemsCount(variants);
@@ -57,6 +58,7 @@ const Home = () => {
           variants={variants}
           setVariantField={setVariantField}
           removeVariant={removeVariant}
+          renderCloneButton={(id) => <CloneVariantButton id={id} onClick={cloneVariant} />}
         />
       }
     />

@@ -9,6 +9,7 @@ interface VariantFormProps {
   itemsPerSheet: number;
   disabled?: boolean;
   counterVariant: number;
+  cloneVariantButton?: React.ReactNode;
   onTotalQuantityChange: (value: number) => void;
   onItemsPerSheetChange: (value: number) => void;
   onDelete: () => void;
@@ -19,6 +20,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
   itemsPerSheet,
   disabled,
   counterVariant,
+  cloneVariantButton,
   onTotalQuantityChange,
   onItemsPerSheetChange,
   onDelete,
@@ -44,6 +46,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
             onChange={(e) => onItemsPerSheetChange(Math.max(Number(e.target.value), MIN_VALUE))}
             min={MIN_VALUE}
           />
+          {cloneVariantButton}
         </div>
         <div className={styles.buttonGroup}>
           <Button

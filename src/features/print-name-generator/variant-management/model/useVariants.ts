@@ -28,6 +28,18 @@ export function useVariants(initialVariants: Variant[] = [INITIAL_VARIANT]) {
 
   const resetVariants = () => setVariants([{ ...INITIAL_VARIANT, id: Date.now() }]);
 
+  const cloneVariant = (id: number) => {
+    setVariants((prev) => {
+      const index = prev.findIndex((v) => v.id === id);
+      if (index === -1) return prev;
+
+      const variantToClone = prev[index];
+      const clonedVariant = { ...variantToClone, id: Date.now() };
+
+      return [...prev.slice(0, index + 1), clonedVariant, ...prev.slice(index + 1)];
+    });
+  };
+
   useObserverReset(resetVariants);
 
   return {
@@ -36,5 +48,6 @@ export function useVariants(initialVariants: Variant[] = [INITIAL_VARIANT]) {
     removeVariant,
     resetVariants,
     setVariantField,
+    cloneVariant,
   };
 }
