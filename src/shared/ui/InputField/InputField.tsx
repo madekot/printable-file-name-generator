@@ -26,11 +26,7 @@ const InputField = ({
       <label className={clsx(styles.label, labelClassName)} htmlFor={uniqueId}>
         {label}
       </label>
-      <input
-        {...props}
-        className={clsx(styles.input, inputClassName)}
-        id={uniqueId}
-      />
+      <input {...props} className={clsx(styles.input, inputClassName)} id={uniqueId} />
     </div>
   );
 };

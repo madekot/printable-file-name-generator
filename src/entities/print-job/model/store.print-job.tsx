@@ -13,8 +13,7 @@ const usePrintJobStore = create<PrintJobStoreStore>()(
   devtools((set) => ({
     printableFileName: "",
     orderName: "",
-    setPrintableFileName: (name: string) =>
-      set(() => ({ printableFileName: name })),
+    setPrintableFileName: (name: string) => set(() => ({ printableFileName: name })),
     setOrderName: (name: string) => set(() => ({ orderName: name })),
     resetOrderName: () => set(() => ({ orderName: "" })),
   }))
