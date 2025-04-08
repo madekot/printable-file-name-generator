@@ -1,10 +1,9 @@
-import { GeneratorPrintableName } from "@features/generator-printable-name";
-import { OrderNameField } from "@features/order-name-management";
+import { Home } from "@pages/home";
 
 const App = () => {
   return (
     <div>
-      <GeneratorPrintableName orderNameSlot={<OrderNameField />} />
+      <Home />
     </div>
   );
 };

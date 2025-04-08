@@ -19,22 +19,13 @@ describe("Компонент InputField", () => {
       />
     );
 
-    expect(screen.getByTestId(/^input-field-wrapper-/)).toHaveClass(
-      "custom-wrapper"
-    );
+    expect(screen.getByTestId(/^input-field-wrapper-/)).toHaveClass("custom-wrapper");
     expect(screen.getByText("Email")).toHaveClass("custom-label");
     expect(screen.getByRole("textbox")).toHaveClass("custom-input");
   });
 
   it("корректно передает HTML-атрибуты в поле ввода", () => {
-    render(
-      <InputField
-        label="Password"
-        placeholder="Enter password"
-        disabled
-        type="password"
-      />
-    );
+    render(<InputField label="Password" placeholder="Enter password" disabled type="password" />);
 
     const input = screen.getByLabelText("Password");
     expect(input).toHaveAttribute("placeholder", "Enter password");
@@ -51,9 +42,7 @@ describe("Компонент InputField", () => {
 
   it("поддерживает значение по умолчанию и реагирует на изменения", async () => {
     const handleChange = jest.fn();
-    render(
-      <InputField label="Comment" value="Hello" onChange={handleChange} />
-    );
+    render(<InputField label="Comment" value="Hello" onChange={handleChange} />);
 
     const input = screen.getByLabelText("Comment");
     expect(input).toHaveValue("Hello");

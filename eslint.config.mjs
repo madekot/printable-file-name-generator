@@ -19,7 +19,7 @@ export default [
     rules: {
       "react/prop-types": "off",
       "no-unused-vars": "off",
-      "no-undef": "off",
+      "no-undef": "off"
     },
     settings: {
       react: {
