@@ -13,6 +13,22 @@ describe("CloneVariantButton", () => {
     mockClickHandler.mockClear();
   });
 
+  it("рендерит кнопку с кастомным текстом", () => {
+    render(
+      <CloneVariantButton variantId={1} clickHandler={mockClickHandler}>
+        Копировать вариант
+      </CloneVariantButton>
+    );
+
+    expect(screen.getByRole("button", { name: /Копировать вариант/i })).toBeInTheDocument();
+  });
+
+  it("рендерит кнопку с дефолтным именем если кастомный не передавали", () => {
+    render(<CloneVariantButton variantId={2} clickHandler={mockClickHandler} />);
+
+    expect(screen.getByRole("button", { name: /Дублировать/i })).toBeInTheDocument();
+  });
+
   it("рендерит кнопку с текстом и иконкой", () => {
     render(<CloneVariantButton variantId={123} clickHandler={mockClickHandler} />);
 

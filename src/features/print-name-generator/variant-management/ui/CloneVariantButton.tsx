@@ -9,14 +9,19 @@ interface CloneVariantButtonProps extends ButtonHTMLAttributes<HTMLButtonElement
   variantId: number;
 }
 
-const CloneVariantButton = ({ variantId, clickHandler, className }: CloneVariantButtonProps) => {
+const CloneVariantButton = ({
+  variantId,
+  clickHandler,
+  className,
+  children = "Дублировать",
+}: CloneVariantButtonProps) => {
   return (
     <Button
       className={clsx(styles.cloneVariantButton, className)}
       onClick={() => clickHandler(variantId)}
       variant={"green"}
     >
-      Дублировать
+      {children}
       <Icon />
     </Button>
   );
