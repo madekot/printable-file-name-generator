@@ -58,7 +58,9 @@ const Home = () => {
           variants={variants}
           setVariantField={setVariantField}
           removeVariant={removeVariant}
-          renderCloneButton={(id) => <CloneVariantButton id={id} onClick={cloneVariant} />}
+          renderCloneButton={(id) => (
+            <CloneVariantButton variantId={id} clickHandler={cloneVariant} />
+          )}
         />
       }
     />

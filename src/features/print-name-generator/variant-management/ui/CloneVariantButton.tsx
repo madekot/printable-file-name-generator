@@ -1,15 +1,21 @@
 import Button from "@shared/ui/Button";
+import clsx from "clsx";
 import styles from "./CloneVariantButton.module.scss";
 import { LuCopyPlus as Icon } from "@shared/ui/icon";
+import { ButtonHTMLAttributes } from "react";
 
-interface CloneVariantButtonProps {
-  onClick: (id: number) => void;
-  id: number;
+interface CloneVariantButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  clickHandler: (variantId: number) => void;
+  variantId: number;
 }
 
-const CloneVariantButton = ({ id, onClick }: CloneVariantButtonProps) => {
+const CloneVariantButton = ({ variantId, clickHandler, className }: CloneVariantButtonProps) => {
   return (
-    <Button className={styles.cloneVariantButton} onClick={() => onClick(id)} variant={"green"}>
+    <Button
+      className={clsx(styles.cloneVariantButton, className)}
+      onClick={() => clickHandler(variantId)}
+      variant={"green"}
+    >
       Дублировать
       <Icon />
     </Button>
