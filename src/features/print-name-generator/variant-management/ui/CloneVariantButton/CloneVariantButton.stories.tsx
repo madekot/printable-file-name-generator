@@ -33,6 +33,15 @@ export const Default: Story = {
   args: {},
 };
 
+export const DefaultHovered: Story = {
+  args: {},
+  parameters: {
+    pseudo: {
+      hover: true,
+    },
+  },
+};
+
 export const WithCustomText: Story = {
   args: {
     children: "Копировать вариант",
