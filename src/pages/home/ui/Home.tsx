@@ -1,6 +1,10 @@
 import styles from "./Home.module.scss";
 import LayoutComponent from "../ui/LayoutComponent";
-import { BonusCopiesField, useExtraCopies } from "@features/print-name-generator/bonus-copies";
+import {
+  BonusCopiesCheckbox,
+  BonusCopiesField,
+  useBonusCopiesManager,
+} from "@features/print-name-generator/bonus-copies";
 import { getMaxCopies } from "@features/print-name-generator/print-name";
 import {
   VariantsList,
@@ -22,7 +26,7 @@ import { Logo } from "@shared/ui/Logo";
 
 const Home = () => {
   const { variants, setVariantField, addVariant, removeVariant, cloneVariant } = useVariants();
-  const { setExtraCopies, extraCopies } = useExtraCopies();
+  const { extraCopies, setExtraCopies, isVisible, toggleVisibility } = useBonusCopiesManager();
   const maxCopies = getMaxCopies(variants, extraCopies);
   const totalItemsCount = useTotalItemsCount(variants);
   const mergedVariants = useMergedVariants(variants);
@@ -31,6 +35,7 @@ const Home = () => {
 
   return (
     <LayoutComponent
+      bonusCopiesCheckbox={<BonusCopiesCheckbox checked={isVisible} onChange={toggleVisibility} />}
       title="Генератор имени файла для печати"
       resetButton={<ButtonResetGenerator className={styles.btnReset} />}
       logo={<Logo className={styles.logo} />}
@@ -48,6 +53,7 @@ const Home = () => {
       orderName={<OrderNameField />}
       extraCopiesInput={
         <BonusCopiesField
+          isVisible={isVisible}
           extraCopies={extraCopies}
           onChange={(e) => setExtraCopies(Number(e.target.value))}
         />
