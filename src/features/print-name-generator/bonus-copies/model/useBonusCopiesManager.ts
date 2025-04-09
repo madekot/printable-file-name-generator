@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useExtraCopies } from "./useExtraCopies";
-import { useBonusCopiesFieldVisible } from "./useBonusCopiesFieldVisible";
+import { useFieldVisibility } from "./useFieldVisibility";
 import { useObserverReset } from "@entities/reset-manager";
 
 export const useBonusCopiesManager = () => {
   const { setExtraCopies, extraCopies, resetExtraCopies } = useExtraCopies();
-  const { isVisible, toggleVisibility, hide } = useBonusCopiesFieldVisible(false);
+  const { isVisible, toggleVisibility, hide } = useFieldVisibility(false);
   const [extraCopiesPersist, setExtraCopiesPersist] = useState(extraCopies);
 
   useEffect(() => {

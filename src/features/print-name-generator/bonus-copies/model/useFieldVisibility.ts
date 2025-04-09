@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useBonusCopiesFieldVisible = (initialState: boolean) => {
+export const useFieldVisibility = (initialState: boolean) => {
   const [isVisible, setIsVisible] = useState(initialState);
 
   const toggleVisibility = () => {

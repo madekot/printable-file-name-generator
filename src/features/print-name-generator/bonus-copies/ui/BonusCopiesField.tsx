@@ -6,6 +6,8 @@ import {
 } from "@shared/lib/input-utils";
 import InputFieldShared from "@shared/ui/InputField";
 
+const MIN_BONUS_COPIES = 1;
+
 interface BonusCopiesFieldProps {
   extraCopies: number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -36,13 +38,13 @@ const BonusCopiesField = ({
   return (
     <InputFieldShared
       label="Бонусные копии:"
-      placeholder={String(extraCopies)}
+      placeholder={String(Math.max(extraCopies, MIN_BONUS_COPIES))}
       inputMode="numeric"
       type="number"
       value={internalValue}
       onChange={handleChange}
       onBlur={handleBlur}
-      min={1}
+      min={MIN_BONUS_COPIES}
       wrapperClassName={className}
     />
   );
