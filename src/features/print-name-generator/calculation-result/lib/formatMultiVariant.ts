@@ -2,9 +2,9 @@ import { Variant } from "@shared/types/variant";
 import { formatSingleVariant } from "./formatSingleVariant";
 
 const formatMultiVariant = (variants: Variant[], maxCopies: number) => {
-  return variants
+  return `(${variants
     .map((variant) => formatSingleVariant({ ...variant, copies: maxCopies }))
-    .join("_+_");
+    .join(", ")})`;
 };
 
 export { formatMultiVariant };

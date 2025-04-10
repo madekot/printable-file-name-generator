@@ -6,9 +6,10 @@ interface LayoutComponentProps {
   resetButton: React.ReactNode;
   logo: React.ReactNode;
   calculationResult: React.ReactNode;
-  extraCopiesInput: React.ReactNode;
+  extraCopiesInput?: React.ReactNode;
   variantsList: React.ReactNode;
   orderName: React.ReactNode;
+  bonusCopiesCheckbox?: React.ReactNode;
 }
 
 const LayoutComponent: React.FC<LayoutComponentProps> = ({
@@ -20,6 +21,7 @@ const LayoutComponent: React.FC<LayoutComponentProps> = ({
   extraCopiesInput,
   variantsList,
   orderName,
+  bonusCopiesCheckbox,
 }) => {
   return (
     <div className={styles.container}>
@@ -28,11 +30,11 @@ const LayoutComponent: React.FC<LayoutComponentProps> = ({
         {resetButton}
         {logo}
       </div>
-
+      {bonusCopiesCheckbox && <div>{bonusCopiesCheckbox}</div>}
       {calculationResult}
 
       <div className={styles.headerBox}>
-        <div className={styles.column}>{extraCopiesInput}</div>
+        {extraCopiesInput && <div className={styles.column}>{extraCopiesInput}</div>}
         <div className={styles.column}>{orderName}</div>
       </div>
 

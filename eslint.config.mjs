@@ -19,7 +19,8 @@ export default [
     rules: {
       "react/prop-types": "off",
       "no-unused-vars": "off",
-      "no-undef": "off"
+      "no-undef": "off",
+      "@typescript-eslint/no-unused-vars": 'warn'
     },
     settings: {
       react: {
