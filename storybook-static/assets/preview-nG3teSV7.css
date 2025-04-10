@@ -1,0 +1,8 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+.App {
+  min-height: 100vh;
+  display: flex;
+}

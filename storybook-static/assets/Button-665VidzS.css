@@ -1,0 +1,63 @@
+._button_14i6s_1 {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+._button_14i6s_1:hover {
+  background-color: #0056b3;
+}
+._button_14i6s_1:disabled {
+  background-color: #d6d6d6;
+  color: #9e9e9e;
+  cursor: not-allowed;
+}
+._button_14i6s_1._delete_14i6s_21 {
+  background-color: #dc3545;
+}
+._button_14i6s_1._delete_14i6s_21:hover {
+  background-color: #c82333;
+}
+._button_14i6s_1._delete_14i6s_21:disabled {
+  background-color: #f5b7b1;
+  color: #f8d7da;
+  cursor: not-allowed;
+}
+._button_14i6s_1._red_14i6s_33 {
+  background-color: #f44336;
+}
+._button_14i6s_1._red_14i6s_33:hover {
+  background-color: #d32f2f;
+}
+._button_14i6s_1._red_14i6s_33:disabled {
+  background-color: #f2c3c3;
+  color: #d9a2a2;
+  cursor: not-allowed;
+}
+._button_14i6s_1._green_14i6s_45 {
+  background-color: #4caf50;
+}
+._button_14i6s_1._green_14i6s_45:hover {
+  background-color: #388e3c;
+}
+._button_14i6s_1._green_14i6s_45:disabled {
+  background-color: #c8e6c9;
+  color: #a5d6a7;
+  cursor: not-allowed;
+}
+._button_14i6s_1._primary_14i6s_57 {
+  background-color: #007bff;
+}
+._button_14i6s_1._primary_14i6s_57:hover {
+  background-color: #0056b3;
+}
+._button_14i6s_1._primary_14i6s_57:disabled {
+  background-color: #cce5ff;
+  color: #9fbdd7;
+  cursor: not-allowed;
+}
