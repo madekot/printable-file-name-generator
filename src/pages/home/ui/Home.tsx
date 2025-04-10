@@ -30,7 +30,7 @@ const Home = () => {
   const maxCopies = getMaxCopies(variants, extraCopies);
   const totalItemsCount = useTotalItemsCount(variants);
   const mergedVariants = useMergedVariants(variants);
-  const printableFileName = usePrintableFileName(mergedVariants, maxCopies);
+  const printableFileName = usePrintableFileName(mergedVariants, maxCopies, extraCopies);
   const remainingItems = useRemainingItems(totalItemsCount, maxCopies, variants);
 
   return (

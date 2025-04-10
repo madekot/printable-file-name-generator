@@ -23,22 +23,22 @@ const formatSingleVariant: FormatSingleVariant = ({
   const noRemainingItems = remainingItems === 0;
 
   if (hasSingleLabel && hasRemainingItems) {
-    return `(${totalQuantity}+${remainingItems})`;
+    return `${totalQuantity} штук тиражных + ${remainingItems} сверхтираж`;
   }
 
   if (noRemainingItems && hasSingleLabel) {
-    return `(${totalQuantity}+${remainingItems})`;
+    return `${totalQuantity} штук тиражных + ${remainingItems} сверхтираж`;
   }
 
   if (hasSingleLabel) {
-    return `(${numLabels}x${totalQuantity}+${remainingItems})`;
+    return `${numLabels} вида × ${totalQuantity} штук тиражных × ${remainingItems} сверхтираж`;
   }
 
   if (noRemainingItems && hasMultipleLabels) {
-    return `(${numLabels}x${totalQuantity}+${remainingItems})`;
+    return `${numLabels} вида × ${totalQuantity} штук тиражных × ${remainingItems} сверхтираж`;
   }
 
-  return `(${numLabels}x${totalQuantity}+${numLabels}x${remainingItems})`;
+  return `${numLabels} вида × ${totalQuantity} штук тиражных + ${numLabels} вида × ${remainingItems} сверхтираж`;
 };
 
 export { formatSingleVariant };

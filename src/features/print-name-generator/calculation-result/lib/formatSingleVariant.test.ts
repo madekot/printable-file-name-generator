@@ -21,7 +21,7 @@ describe("formatSingleVariant", () => {
     };
     const result = formatSingleVariant(variant);
 
-    expect(result).toBe("(50+0)");
+    expect(result).toBe("50 штук тиражных + 0 сверхтираж");
     expect(calculateRemainingItems).toHaveBeenCalledWith(50, 5, 10);
   });
 
@@ -36,7 +36,7 @@ describe("formatSingleVariant", () => {
     };
     const result = formatSingleVariant(variant);
 
-    expect(result).toBe("(30+10)");
+    expect(result).toBe("30 штук тиражных + 10 сверхтираж");
     expect(calculateRemainingItems).toHaveBeenCalledWith(30, 5, 8);
   });
 
@@ -51,7 +51,7 @@ describe("formatSingleVariant", () => {
     };
     const result = formatSingleVariant(variant);
 
-    expect(result).toBe("(2x50+0)");
+    expect(result).toBe("2 вида × 50 штук тиражных × 0 сверхтираж");
     expect(calculateRemainingItems).toHaveBeenCalledWith(50, 5, 10);
   });
 
@@ -66,7 +66,7 @@ describe("formatSingleVariant", () => {
     };
     const result = formatSingleVariant(variant);
 
-    expect(result).toBe("(3x40+3x20)");
+    expect(result).toBe("3 вида × 40 штук тиражных + 3 вида × 20 сверхтираж");
     expect(calculateRemainingItems).toHaveBeenCalledWith(40, 5, 12);
   });
 });

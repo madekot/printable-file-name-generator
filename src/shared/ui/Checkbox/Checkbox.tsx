@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import styles from "./CustomCheckbox.module.scss";
+import styles from "./Checkbox.module.scss";
 
 interface CheckboxProps {
   checked: boolean;

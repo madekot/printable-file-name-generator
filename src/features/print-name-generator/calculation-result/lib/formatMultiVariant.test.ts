@@ -22,7 +22,7 @@ describe("formatMultiVariant", () => {
 
     const result = formatMultiVariant(variants, 10);
 
-    expect(result).toBe("(50+10)_+_(2x30+5)");
+    expect(result).toBe("((50+10), (2x30+5))");
     expect(formatSingleVariant).toHaveBeenCalledTimes(2);
     expect(formatSingleVariant).toHaveBeenCalledWith({
       id: 1,
@@ -42,7 +42,7 @@ describe("formatMultiVariant", () => {
 
   test("должна возвращать пустую строку, если передан пустой массив", () => {
     const result = formatMultiVariant([], 10);
-    expect(result).toBe("");
+    expect(result).toBe("()");
     expect(formatSingleVariant).not.toHaveBeenCalled();
   });
 
@@ -53,7 +53,7 @@ describe("formatMultiVariant", () => {
 
     const result = formatMultiVariant(variants, 5);
 
-    expect(result).toBe("(100+20)");
+    expect(result).toBe("((100+20))");
     expect(formatSingleVariant).toHaveBeenCalledTimes(1);
     expect(formatSingleVariant).toHaveBeenCalledWith({
       id: 3,
