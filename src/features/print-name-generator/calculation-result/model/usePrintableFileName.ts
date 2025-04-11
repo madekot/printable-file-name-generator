@@ -16,16 +16,25 @@ export const usePrintableFileName = ({
   bonusCopies = 0,
   showOverprint = true,
 }: usePrintableFileNameProps) => {
-  const { setPrintableFileName, printableFileName, orderName } = usePrintJobStore();
+  const { setPrintableFileName, printableFileName, orderName, isOrderNameVisible } =
+    usePrintJobStore();
 
   useEffect(() => {
-    const orderNameWithSpace = orderName ?? "";
+    const orderNameTotal = isOrderNameVisible ? `${orderName} ` : "";
     const pcsAndPcsBonus = formatMultiVariant(variants, maxCopies, showOverprint);
     const bonusCopiesWithSpace = bonusCopies ? ` (${bonusCopies} из них — сверхтираж)` : "";
-    const totalName = `${orderNameWithSpace} ${pcsAndPcsBonus} ${maxCopies} копий на печать${bonusCopiesWithSpace}`;
+    const totalName = `${orderNameTotal}${pcsAndPcsBonus} ${maxCopies} копий на печать${bonusCopiesWithSpace}`;
 
     setPrintableFileName(totalName);
-  }, [bonusCopies, maxCopies, orderName, setPrintableFileName, showOverprint, variants]);
+  }, [
+    bonusCopies,
+    maxCopies,
+    orderName,
+    isOrderNameVisible,
+    setPrintableFileName,
+    showOverprint,
+    variants,
+  ]);
 
   return printableFileName;
 };

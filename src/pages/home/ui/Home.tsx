@@ -9,31 +9,40 @@ import {
 } from "@features/print-name-generator/bonus-copies";
 import { getMaxCopies } from "@features/print-name-generator/print-name";
 import {
-  VariantsList,
   ButtonAddVariant,
-  useVariants,
   CloneVariantButton,
+  useVariants,
+  VariantsList,
 } from "@features/print-name-generator/variant-management";
 import { ButtonResetGenerator } from "@features/print-name-generator/reset-generator-name";
 import {
   CalculationResult,
-  useTotalItemsCount,
-  useRemainingItems,
-  usePrintableFileName,
-  useMergedVariants,
   CopyToClipboardButton,
+  useMergedVariants,
+  usePrintableFileName,
+  useRemainingItems,
+  useTotalItemsCount,
 } from "@features/print-name-generator/calculation-result";
-import OrderNameField from "@features/print-name-generator/order-name-management";
+import OrderNameField, {
+  useOrderNameCheckbox,
+} from "@features/print-name-generator/order-name-management";
 import { Logo } from "@shared/ui/Logo";
+import Checkbox from "@shared/ui/Checkbox";
 
 const Home = () => {
   const { variants, setVariantField, addVariant, removeVariant, cloneVariant } = useVariants();
-  const { extraCopies, setExtraCopies, isVisible, toggleVisibility } = useBonusCopiesManager();
+  const {
+    extraCopies,
+    setExtraCopies,
+    isVisible: isBonusCopiesVisible,
+    toggleVisibility,
+  } = useBonusCopiesManager();
   const maxCopies = getMaxCopies(variants, extraCopies);
   const totalItemsCount = useTotalItemsCount(variants);
   const mergedVariants = useMergedVariants(variants);
   const remainingItems = useRemainingItems(totalItemsCount, maxCopies, variants);
   const { overPrintVisible, toggleOverPrint } = useOverPrintCheckbox();
+  const { isOrderNameVisible, toggleOrderNameVisible } = useOrderNameCheckbox();
 
   const printableFileName = usePrintableFileName({
     variants: mergedVariants,
@@ -48,7 +57,14 @@ const Home = () => {
         <OverPrintCheckbox checked={overPrintVisible} onChange={toggleOverPrint} />
       }
       bonusCopiesCheckbox={
-        <BonusCopiesCheckbox checked={isVisible} onChange={toggleVisibility} className={"test"} />
+        <BonusCopiesCheckbox checked={isBonusCopiesVisible} onChange={toggleVisibility} />
+      }
+      orderNameCheckBox={
+        <Checkbox
+          label={"Имя заказа"}
+          checked={isOrderNameVisible}
+          onChange={toggleOrderNameVisible}
+        />
       }
       title="Генератор имени файла для печати"
       resetButton={<ButtonResetGenerator className={styles.btnReset} />}
@@ -64,13 +80,15 @@ const Home = () => {
           copyToClipboardButton={<CopyToClipboardButton copyContent={printableFileName} />}
         />
       }
-      orderName={<OrderNameField />}
+      orderName={isOrderNameVisible && <OrderNameField />}
       extraCopiesInput={
-        <BonusCopiesField
-          isVisible={isVisible}
-          extraCopies={extraCopies}
-          onChange={(e) => setExtraCopies(Number(e.target.value))}
-        />
+        isBonusCopiesVisible && (
+          <BonusCopiesField
+            isVisible={isBonusCopiesVisible}
+            extraCopies={extraCopies}
+            onChange={(e) => setExtraCopies(Number(e.target.value))}
+          />
+        )
       }
       variantsTitle="Варианты раскладки на листе"
       variantsList={

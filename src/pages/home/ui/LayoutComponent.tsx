@@ -11,6 +11,7 @@ interface LayoutComponentProps {
   orderName: React.ReactNode;
   bonusCopiesCheckbox?: React.ReactNode;
   overPrintCheckbox?: React.ReactNode;
+  orderNameCheckBox?: React.ReactNode;
 }
 
 const LayoutComponent: React.FC<LayoutComponentProps> = ({
@@ -24,6 +25,7 @@ const LayoutComponent: React.FC<LayoutComponentProps> = ({
   orderName,
   bonusCopiesCheckbox,
   overPrintCheckbox,
+  orderNameCheckBox,
 }) => {
   return (
     <div className={styles.container}>
@@ -32,14 +34,24 @@ const LayoutComponent: React.FC<LayoutComponentProps> = ({
         {resetButton}
         {logo}
       </div>
-      {bonusCopiesCheckbox && <div>{bonusCopiesCheckbox}</div>}
-      {overPrintCheckbox && <div>{overPrintCheckbox}</div>}
+      <div className={styles.rowCheckbox}>
+        <div className={styles.collumnCheckbox}>
+          {bonusCopiesCheckbox && <div>{bonusCopiesCheckbox}</div>}
+          {overPrintCheckbox && <div>{overPrintCheckbox}</div>}
+        </div>
+
+        <div className={styles.collumnCheckbox}>
+          {orderNameCheckBox && <div>{orderNameCheckBox}</div>}
+        </div>
+      </div>
       {calculationResult}
 
-      <div className={styles.headerBox}>
-        {extraCopiesInput && <div className={styles.column}>{extraCopiesInput}</div>}
-        <div className={styles.column}>{orderName}</div>
-      </div>
+      {(orderName || extraCopiesInput) && (
+        <div className={styles.headerBox}>
+          {extraCopiesInput && <div className={styles.column}>{extraCopiesInput}</div>}
+          {orderName && <div className={styles.column}>{orderName}</div>}
+        </div>
+      )}
 
       <div className={styles.varintsBox}>
         <b className={styles.varintsTitle}>{variantsTitle}</b>
