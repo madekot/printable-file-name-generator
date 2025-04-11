@@ -10,6 +10,7 @@ interface LayoutComponentProps {
   variantsList: React.ReactNode;
   orderName: React.ReactNode;
   bonusCopiesCheckbox?: React.ReactNode;
+  overPrintCheckbox?: React.ReactNode;
 }
 
 const LayoutComponent: React.FC<LayoutComponentProps> = ({
@@ -22,6 +23,7 @@ const LayoutComponent: React.FC<LayoutComponentProps> = ({
   variantsList,
   orderName,
   bonusCopiesCheckbox,
+  overPrintCheckbox,
 }) => {
   return (
     <div className={styles.container}>
@@ -31,6 +33,7 @@ const LayoutComponent: React.FC<LayoutComponentProps> = ({
         {logo}
       </div>
       {bonusCopiesCheckbox && <div>{bonusCopiesCheckbox}</div>}
+      {overPrintCheckbox && <div>{overPrintCheckbox}</div>}
       {calculationResult}
 
       <div className={styles.headerBox}>

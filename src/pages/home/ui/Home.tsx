@@ -3,6 +3,7 @@ import LayoutComponent from "../ui/LayoutComponent";
 import {
   BonusCopiesCheckbox,
   BonusCopiesField,
+  OverPrintCheckbox,
   useBonusCopiesManager,
 } from "@features/print-name-generator/bonus-copies";
 import { getMaxCopies } from "@features/print-name-generator/print-name";
@@ -35,6 +36,7 @@ const Home = () => {
 
   return (
     <LayoutComponent
+      overPrintCheckbox={<OverPrintCheckbox checked={false} onChange={() => {}} />}
       bonusCopiesCheckbox={<BonusCopiesCheckbox checked={isVisible} onChange={toggleVisibility} />}
       title="Генератор имени файла для печати"
       resetButton={<ButtonResetGenerator className={styles.btnReset} />}
