@@ -5,6 +5,7 @@ interface FormatSingleVariantProps {
   itemsPerSheet: number;
   numLabels: number;
   copies: number;
+  showOverprint?: boolean;
 }
 
 type FormatSingleVariant = (props: FormatSingleVariantProps) => string;
@@ -14,31 +15,29 @@ const formatSingleVariant: FormatSingleVariant = ({
   copies,
   numLabels,
   itemsPerSheet,
+  showOverprint = true,
 }) => {
   const remainingItems = Math.floor(calculateRemainingItems(totalQuantity, itemsPerSheet, copies));
-
-  const hasSingleLabel = numLabels === 1;
   const hasMultipleLabels = numLabels > 1;
-  const hasRemainingItems = remainingItems > 0;
   const noRemainingItems = remainingItems === 0;
 
-  if (hasSingleLabel && hasRemainingItems) {
-    return `${totalQuantity} штук тиражных + ${remainingItems} сверхтираж`;
+  const getPcsTirageText = () => {
+    if (!hasMultipleLabels) {
+      return `${totalQuantity} шт. тираж`;
+    }
+
+    return `${numLabels} вида × ${totalQuantity} шт. тираж`;
+  };
+
+  function getOverprintText() {
+    if (!hasMultipleLabels || noRemainingItems) {
+      return `${remainingItems} шт. сверхтираж`;
+    }
+
+    return `${numLabels} вида × ${remainingItems} шт. сверхтираж`;
   }
 
-  if (noRemainingItems && hasSingleLabel) {
-    return `${totalQuantity} штук тиражных + ${remainingItems} сверхтираж`;
-  }
-
-  if (hasSingleLabel) {
-    return `${numLabels} вида × ${totalQuantity} штук тиражных × ${remainingItems} сверхтираж`;
-  }
-
-  if (noRemainingItems && hasMultipleLabels) {
-    return `${numLabels} вида × ${totalQuantity} штук тиражных × ${remainingItems} сверхтираж`;
-  }
-
-  return `${numLabels} вида × ${totalQuantity} штук тиражных + ${numLabels} вида × ${remainingItems} сверхтираж`;
+  return showOverprint ? `${getPcsTirageText()} + ${getOverprintText()}` : getPcsTirageText();
 };
 
 export { formatSingleVariant };
