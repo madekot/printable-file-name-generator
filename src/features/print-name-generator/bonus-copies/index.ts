@@ -3,3 +3,4 @@ export { default as OverPrintCheckbox } from "./ui/OverPrintCheckbox/OverPrintCh
 export { useExtraCopies } from "./model/useExtraCopies";
 export { BonusCopiesCheckbox } from "./ui/BonusCopiesCheckbox";
 export { useBonusCopiesManager } from "./model/useBonusCopiesManager";
+export { useOverPrintCheckbox } from "./model/useOverPrintCheckbox";

@@ -35,19 +35,19 @@ describe("usePrintableFileName", () => {
           orderName,
         });
 
-        return usePrintableFileName(variants, maxCopies);
+        return usePrintableFileName({ variants, maxCopies });
       },
       { initialProps: { orderName: "Order1" } }
     );
 
     expect(setPrintableFileName).toHaveBeenCalledWith(
-      "Order1 (100 штук тиражных + 150 сверхтираж) 5 копий на печать"
+      "Order1 (100 шт. тираж + 150 шт. сверхтираж) 5 копий на печать"
     );
 
     rerender({ orderName: "Order2" });
 
     expect(setPrintableFileName).toHaveBeenCalledWith(
-      "Order2 (100 штук тиражных + 150 сверхтираж) 5 копий на печать"
+      "Order2 (100 шт. тираж + 150 шт. сверхтираж) 5 копий на печать"
     );
   });
 });

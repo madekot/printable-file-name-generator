@@ -5,6 +5,7 @@ import {
   BonusCopiesField,
   OverPrintCheckbox,
   useBonusCopiesManager,
+  useOverPrintCheckbox,
 } from "@features/print-name-generator/bonus-copies";
 import { getMaxCopies } from "@features/print-name-generator/print-name";
 import {
@@ -31,13 +32,24 @@ const Home = () => {
   const maxCopies = getMaxCopies(variants, extraCopies);
   const totalItemsCount = useTotalItemsCount(variants);
   const mergedVariants = useMergedVariants(variants);
-  const printableFileName = usePrintableFileName(mergedVariants, maxCopies, extraCopies);
   const remainingItems = useRemainingItems(totalItemsCount, maxCopies, variants);
+  const { overPrintVisible, toggleOverPrint } = useOverPrintCheckbox();
+
+  const printableFileName = usePrintableFileName({
+    variants: mergedVariants,
+    maxCopies,
+    bonusCopies: extraCopies,
+    showOverprint: overPrintVisible,
+  });
 
   return (
     <LayoutComponent
-      overPrintCheckbox={<OverPrintCheckbox checked={false} onChange={() => {}} />}
-      bonusCopiesCheckbox={<BonusCopiesCheckbox checked={isVisible} onChange={toggleVisibility} />}
+      overPrintCheckbox={
+        <OverPrintCheckbox checked={overPrintVisible} onChange={toggleOverPrint} />
+      }
+      bonusCopiesCheckbox={
+        <BonusCopiesCheckbox checked={isVisible} onChange={toggleVisibility} className={"test"} />
+      }
       title="Генератор имени файла для печати"
       resetButton={<ButtonResetGenerator className={styles.btnReset} />}
       logo={<Logo className={styles.logo} />}
