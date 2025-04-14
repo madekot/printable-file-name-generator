@@ -1,5 +1,6 @@
 import styles from "./Home.module.scss";
 import LayoutComponent from "../ui/LayoutComponent";
+
 import {
   BonusCopiesCheckbox,
   BonusCopiesField,
@@ -7,14 +8,19 @@ import {
   useBonusCopiesManager,
   useOverPrintCheckbox,
 } from "@features/print-name-generator/bonus-copies";
+
 import { getMaxCopies } from "@features/print-name-generator/print-name";
+
 import {
   ButtonAddVariant,
   CloneVariantButton,
   useVariants,
+  useVisibleVariants,
   VariantsList,
 } from "@features/print-name-generator/variant-management";
+
 import { ButtonResetGenerator } from "@features/print-name-generator/reset-generator-name";
+
 import {
   CalculationResult,
   CopyToClipboardButton,
@@ -23,24 +29,31 @@ import {
   useRemainingItems,
   useTotalItemsCount,
 } from "@features/print-name-generator/calculation-result";
+
 import OrderNameField, {
   useOrderNameCheckbox,
 } from "@features/print-name-generator/order-name-management";
+
 import { Logo } from "@shared/ui/Logo";
 import Checkbox from "@shared/ui/Checkbox";
+import Button from "@shared/ui/Button";
 
 const Home = () => {
   const { variants, setVariantField, addVariant, removeVariant, cloneVariant } = useVariants();
+  const { isVisibleVariants, toggleVisibleVariants, variantsVisible } =
+    useVisibleVariants(variants);
+
   const {
     extraCopies,
     setExtraCopies,
     isVisible: isBonusCopiesVisible,
     toggleVisibility,
   } = useBonusCopiesManager();
-  const maxCopies = getMaxCopies(variants, extraCopies);
-  const totalItemsCount = useTotalItemsCount(variants);
-  const mergedVariants = useMergedVariants(variants);
-  const remainingItems = useRemainingItems(totalItemsCount, maxCopies, variants);
+
+  const maxCopies = getMaxCopies(variantsVisible, extraCopies);
+  const totalItemsCount = useTotalItemsCount(variantsVisible);
+  const mergedVariants = useMergedVariants(variantsVisible);
+  const remainingItems = useRemainingItems(totalItemsCount, maxCopies, variantsVisible);
   const { overPrintVisible, toggleOverPrint } = useOverPrintCheckbox();
   const { isOrderNameVisible, toggleOrderNameVisible } = useOrderNameCheckbox();
 
@@ -66,6 +79,13 @@ const Home = () => {
           onChange={toggleOrderNameVisible}
         />
       }
+      variantCheckBox={
+        <Checkbox
+          label={"Несколько видов на одном листе"}
+          checked={isVisibleVariants}
+          onChange={toggleVisibleVariants}
+        />
+      }
       title="Генератор имени файла для печати"
       resetButton={<ButtonResetGenerator className={styles.btnReset} />}
       logo={<Logo className={styles.logo} />}
@@ -76,7 +96,7 @@ const Home = () => {
           dynamicString={printableFileName}
           totalItemsCount={totalItemsCount}
           extraCopies={extraCopies}
-          addVariantButton={<ButtonAddVariant addVariant={addVariant} />}
+          addVariantButton={isVisibleVariants && <ButtonAddVariant addVariant={addVariant} />}
           copyToClipboardButton={<CopyToClipboardButton copyContent={printableFileName} />}
         />
       }
@@ -90,15 +110,21 @@ const Home = () => {
           />
         )
       }
-      variantsTitle="Варианты раскладки на листе"
       variantsList={
         <VariantsList
-          variants={variants}
+          variants={variantsVisible}
           setVariantField={setVariantField}
-          removeVariant={removeVariant}
-          renderCloneButton={(id) => (
-            <CloneVariantButton variantId={id} clickHandler={cloneVariant} />
-          )}
+          renderCloneButton={(id) =>
+            isVisibleVariants && <CloneVariantButton variantId={id} clickHandler={cloneVariant} />
+          }
+          renderDeleteButton={(id, arrayLength) =>
+            isVisibleVariants &&
+            arrayLength > 1 && (
+              <Button variant="delete" onClick={() => removeVariant(id)}>
+                Удалить
+              </Button>
+            )
+          }
         />
       }
     />
