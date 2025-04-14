@@ -1,32 +1,32 @@
 import { Variant } from "@shared/types/variant";
 import VariantForm from "./VariantForm";
+import { ReactNode } from "react";
 
 type VariantField = "totalQuantity" | "itemsPerSheet";
 
 type UseVariantsReturn = {
   variants: Variant[];
   setVariantField: (id: number, field: VariantField, value: number) => void;
-  removeVariant: (id: number) => void;
-  renderCloneButton?: (id: number) => React.ReactNode;
+  renderCloneButton?: (id: number) => ReactNode;
+  renderDeleteButton?: (id: number, arrayLength: number) => ReactNode;
 };
 
 const VariantsList = ({
   variants,
-  removeVariant,
   setVariantField,
   renderCloneButton,
+  renderDeleteButton,
 }: UseVariantsReturn) => (
   <>
     {variants.map((variant, index) => (
       <VariantForm
         key={variant.id}
         {...variant}
-        disabled={variants.length === 1}
-        counterVariant={index + 1}
-        onDelete={() => removeVariant(variant.id)}
+        counterVariant={variants.length > 1 ? index + 1 : undefined}
         onTotalQuantityChange={(value) => setVariantField(variant.id, "totalQuantity", value)}
         onItemsPerSheetChange={(value) => setVariantField(variant.id, "itemsPerSheet", value)}
         cloneVariantButton={renderCloneButton?.(variant.id)}
+        deleteVariantButton={renderDeleteButton?.(variant.id, variants.length)}
       />
     ))}
   </>

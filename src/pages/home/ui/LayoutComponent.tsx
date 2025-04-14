@@ -2,7 +2,6 @@ import styles from "./LayoutComponent.module.scss";
 
 interface LayoutComponentProps {
   title: string;
-  variantsTitle: string;
   resetButton: React.ReactNode;
   logo: React.ReactNode;
   calculationResult: React.ReactNode;
@@ -12,11 +11,11 @@ interface LayoutComponentProps {
   bonusCopiesCheckbox?: React.ReactNode;
   overPrintCheckbox?: React.ReactNode;
   orderNameCheckBox?: React.ReactNode;
+  variantCheckBox?: React.ReactNode;
 }
 
 const LayoutComponent: React.FC<LayoutComponentProps> = ({
   title,
-  variantsTitle,
   resetButton,
   logo,
   calculationResult,
@@ -26,6 +25,7 @@ const LayoutComponent: React.FC<LayoutComponentProps> = ({
   bonusCopiesCheckbox,
   overPrintCheckbox,
   orderNameCheckBox,
+  variantCheckBox,
 }) => {
   return (
     <div className={styles.container}>
@@ -42,6 +42,7 @@ const LayoutComponent: React.FC<LayoutComponentProps> = ({
 
         <div className={styles.collumnCheckbox}>
           {orderNameCheckBox && <div>{orderNameCheckBox}</div>}
+          {variantCheckBox && <div>{variantCheckBox}</div>}
         </div>
       </div>
       {calculationResult}
@@ -53,10 +54,7 @@ const LayoutComponent: React.FC<LayoutComponentProps> = ({
         </div>
       )}
 
-      <div className={styles.varintsBox}>
-        <b className={styles.varintsTitle}>{variantsTitle}</b>
-        <div className={styles.varints}>{variantsList}</div>
-      </div>
+      <div className={styles.varints}>{variantsList}</div>
     </div>
   );
 };

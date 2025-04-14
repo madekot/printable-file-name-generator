@@ -8,7 +8,7 @@ interface ButtonAddVariantProps {
 const ButtonAddVariant: React.FC<ButtonAddVariantProps> = ({ addVariant }) => {
   return (
     <Button className={styles.buttonAddVariant} onClick={addVariant}>
-      Добавить вариант
+      Добавить вид
     </Button>
   );
 };
