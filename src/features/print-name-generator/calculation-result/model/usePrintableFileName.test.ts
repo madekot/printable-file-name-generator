@@ -33,7 +33,7 @@ describe("usePrintableFileName", () => {
           setPrintableFileName,
           printableFileName: "",
           orderName,
-          orderNameVisible: true,
+          isOrderNameVisible: true,
         });
 
         return usePrintableFileName({ variants, maxCopies });
@@ -62,7 +62,7 @@ describe("usePrintableFileName", () => {
           setPrintableFileName,
           printableFileName: "",
           orderName,
-          orderNameVisible: false,
+          isOrderNameVisible: false,
         });
 
         return usePrintableFileName({ variants, maxCopies });
