@@ -22,7 +22,7 @@ describe("formatMultiVariant", () => {
 
     const result = formatMultiVariant(variants, 10);
 
-    expect(result).toBe("((50+10), (2x30+5))");
+    expect(result).toBe("((50+10) | (2x30+5))");
     expect(formatSingleVariant).toHaveBeenCalledTimes(2);
     expect(formatSingleVariant).toHaveBeenCalledWith({
       id: 1,

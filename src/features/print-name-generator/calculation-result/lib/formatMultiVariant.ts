@@ -4,7 +4,7 @@ import { formatSingleVariant } from "./formatSingleVariant";
 const formatMultiVariant = (variants: Variant[], maxCopies: number, showOverprint?: boolean) => {
   return `(${variants
     .map((variant) => formatSingleVariant({ ...variant, copies: maxCopies, showOverprint }))
-    .join(", ")})`;
+    .join(" | ")})`;
 };
 
 export { formatMultiVariant };
