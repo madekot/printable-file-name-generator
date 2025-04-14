@@ -23,7 +23,7 @@ describe("usePrintableFileName", () => {
     });
   });
 
-  it("должен обновлять имя файла при изменении orderName", () => {
+  it("должен обновлять имя файла при изменении если чекбокс поля включен", () => {
     const variants: Variant[] = [{ id: 1, itemsPerSheet: 50, numLabels: 1, totalQuantity: 100 }];
     const maxCopies = 5;
 
@@ -33,6 +33,7 @@ describe("usePrintableFileName", () => {
           setPrintableFileName,
           printableFileName: "",
           orderName,
+          orderNameVisible: true,
         });
 
         return usePrintableFileName({ variants, maxCopies });
@@ -48,6 +49,35 @@ describe("usePrintableFileName", () => {
 
     expect(setPrintableFileName).toHaveBeenCalledWith(
       "Order2 (100 шт. тираж + 150 шт. сверхтираж) 5 копий на печать"
+    );
+  });
+
+  it("должен НЕ обновлять имя файла при изменении если чекбокс поля ВЫКлючен", () => {
+    const variants: Variant[] = [{ id: 1, itemsPerSheet: 50, numLabels: 1, totalQuantity: 100 }];
+    const maxCopies = 5;
+
+    const { rerender } = renderHook(
+      ({ orderName }) => {
+        (usePrintJobStore as unknown as jest.Mock).mockReturnValue({
+          setPrintableFileName,
+          printableFileName: "",
+          orderName,
+          orderNameVisible: false,
+        });
+
+        return usePrintableFileName({ variants, maxCopies });
+      },
+      { initialProps: { orderName: "Order1" } }
+    );
+
+    expect(setPrintableFileName).toHaveBeenCalledWith(
+      "(100 шт. тираж + 150 шт. сверхтираж) 5 копий на печать"
+    );
+
+    rerender({ orderName: "Order2" });
+
+    expect(setPrintableFileName).toHaveBeenCalledWith(
+      "(100 шт. тираж + 150 шт. сверхтираж) 5 копий на печать"
     );
   });
 });

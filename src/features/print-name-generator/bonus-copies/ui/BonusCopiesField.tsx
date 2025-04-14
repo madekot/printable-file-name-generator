@@ -5,6 +5,7 @@ import {
   filterInvalidChars,
 } from "@shared/lib/input-utils";
 import InputFieldShared from "@shared/ui/InputField";
+import { useAutoFocus } from "@shared/hooks";
 
 const MIN_BONUS_COPIES = 1;
 
@@ -22,6 +23,7 @@ const BonusCopiesField = ({
   className,
 }: BonusCopiesFieldProps) => {
   const [internalValue, setInternalValue] = useState(extraCopies.toString());
+  const { ref } = useAutoFocus<HTMLInputElement>();
 
   useEffect(() => {
     setInternalValue(extraCopies.toString());
@@ -37,6 +39,7 @@ const BonusCopiesField = ({
 
   return (
     <InputFieldShared
+      ref={ref}
       label="Бонусные копии:"
       placeholder={String(Math.max(extraCopies, MIN_BONUS_COPIES))}
       inputMode="numeric"

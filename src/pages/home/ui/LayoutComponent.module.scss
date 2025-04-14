@@ -78,3 +78,14 @@
   flex-direction: column;
   gap: 12px;
 }
+
+.rowCheckbox {
+  display: flex;
+  gap: 32px;
+}
+
+.collumnCheckbox {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import InputField from "./InputField";
+import { useEffect, useRef } from "react";
 
 describe("Компонент InputField", () => {
   it("рендарит компонен", () => {
@@ -49,5 +50,24 @@ describe("Компонент InputField", () => {
 
     await userEvent.type(input, " world!");
     expect(handleChange).toHaveBeenCalledTimes(7);
+  });
+
+  it("передаёт ref и он указывает на input", () => {
+    const TestWithRef = () => {
+      const inputRef = useRef<HTMLInputElement>(null);
+
+      useEffect(() => {
+        if (inputRef.current) {
+          inputRef.current.setAttribute("data-ref-test", "true");
+        }
+      }, []);
+
+      return <InputField label="Name" ref={inputRef} />;
+    };
+
+    render(<TestWithRef />);
+    const input = screen.getByLabelText("Name");
+
+    expect(input).toHaveAttribute("data-ref-test", "true");
   });
 });
