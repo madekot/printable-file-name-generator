@@ -2,15 +2,8 @@ import { useEffect, useState } from "react";
 import { usePrintJobStore } from "@entities/print-job";
 import { Variant } from "@shared/types/variant";
 import { formatMultiVariant } from "../lib/formatMultiVariant";
-
-/**
- * Заменяет все обычные пробелы на неразрывные (\u00A0)
- * @param text Исходная строка
- * @returns Строка с неразрывными пробелами
- */
-const replaceSpacesWithNbspChars = (text: string): string => {
-  return text.replace(/ /g, "\u00A0");
-};
+import { replaceSpacesWithNbspChars } from "../lib/replaceSpacesWithNbspChars";
+import { pluralizeCopies } from "../lib/pluralizeCopies";
 
 interface usePrintableFileNameProps {
   variants: Variant[];
@@ -33,7 +26,7 @@ export const usePrintableFileName = ({
     const pcsAndPcsBonus = formatMultiVariant(variants, maxCopies, showOverprint);
     const bonusCopiesWithSpace = bonusCopies ? ` (${bonusCopies} из них — сверхтираж)` : "";
     setPrintableFileName(
-      `${orderNameTotal}${replaceSpacesWithNbspChars(pcsAndPcsBonus)} ${replaceSpacesWithNbspChars(`${maxCopies} копий на печать${bonusCopiesWithSpace}`)}`
+      `${orderNameTotal}${replaceSpacesWithNbspChars(pcsAndPcsBonus)} ${replaceSpacesWithNbspChars(`${pluralizeCopies(maxCopies)} на печать${bonusCopiesWithSpace}`)}`
     );
   }, [bonusCopies, maxCopies, orderName, isOrderNameVisible, showOverprint, variants]);
 
