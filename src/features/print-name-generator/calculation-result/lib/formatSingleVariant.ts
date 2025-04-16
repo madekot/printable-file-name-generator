@@ -1,4 +1,5 @@
 import { calculateRemainingItems } from "./calculateRemainingItems";
+import { pluralizeTypes } from "./pluralizeCopies";
 
 interface FormatSingleVariantProps {
   totalQuantity: number;
@@ -26,7 +27,7 @@ const formatSingleVariant: FormatSingleVariant = ({
       return `${totalQuantity} шт. тираж`;
     }
 
-    return `${numLabels} вида × ${totalQuantity} шт. тираж`;
+    return `${pluralizeTypes(numLabels)} × ${totalQuantity} шт. тираж`;
   };
 
   function getOverprintText() {
@@ -34,7 +35,7 @@ const formatSingleVariant: FormatSingleVariant = ({
       return `${remainingItems} шт. сверхтираж`;
     }
 
-    return `${numLabels} вида × ${remainingItems} шт. сверхтираж`;
+    return `${pluralizeTypes(numLabels)} × ${remainingItems} шт. сверхтираж`;
   }
 
   return showOverprint ? `${getPcsTirageText()} + ${getOverprintText()}` : getPcsTirageText();

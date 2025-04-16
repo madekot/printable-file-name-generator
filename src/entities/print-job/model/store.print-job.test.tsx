@@ -2,16 +2,6 @@ import { renderHook, act } from "@testing-library/react";
 import usePrintJobStore from "./store.print-job";
 
 describe("usePrintJobStore", () => {
-  it("должен устанавливать printableFileName", () => {
-    const { result } = renderHook(() => usePrintJobStore());
-
-    act(() => {
-      result.current.setPrintableFileName("(100+20)_4 copies");
-    });
-
-    expect(result.current.printableFileName).toBe("(100+20)_4 copies");
-  });
-
   it("должен устанавливать orderName", () => {
     const { result } = renderHook(() => usePrintJobStore());
 

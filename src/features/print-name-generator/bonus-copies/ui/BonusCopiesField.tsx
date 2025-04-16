@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  createEnforcedMinBlur,
-  createFilteredChange,
-  filterInvalidChars,
-} from "@shared/lib/input-utils";
+import { createEnforcedMinBlur, filterInvalidChars } from "@shared/lib/input-utils";
 import InputFieldShared from "@shared/ui/InputField";
 import { useAutoFocus } from "@shared/hooks";
 
@@ -26,16 +22,25 @@ const BonusCopiesField = ({
   const { ref } = useAutoFocus<HTMLInputElement>();
 
   useEffect(() => {
+    if (!internalValue) {
+      return;
+    }
     setInternalValue(extraCopies.toString());
-  }, [extraCopies]);
+  }, [extraCopies, internalValue]);
 
   if (!isVisible) {
     return null;
   }
 
-  const { handleChange } = createFilteredChange(setInternalValue, filterInvalidChars, onChange);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = filterInvalidChars(e.target.value);
+    setInternalValue(newValue);
 
-  const { handleBlur } = createEnforcedMinBlur(setInternalValue, 1);
+    const newEvent = { ...e, target: { ...e.target, value: newValue } };
+    onChange(newEvent);
+  };
+
+  const { handleBlur } = createEnforcedMinBlur(setInternalValue, MIN_BONUS_COPIES);
 
   return (
     <InputFieldShared
