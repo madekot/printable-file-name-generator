@@ -24,6 +24,9 @@ const StrictNumericInputField: React.FC<InputFieldProps> = ({
   const [internalValue, setInternalValue] = useState(value.toString());
 
   useEffect(() => {
+    if (value) {
+      return;
+    }
     setInternalValue(value.toString());
   }, [value]);
 
