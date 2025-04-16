@@ -26,10 +26,10 @@ const CalculationResult: React.FC<CalculationResultProps> = ({
           <div className={styles.info}>
             <div className={styles.col}>
               <p>
-                Копий в печать: <b>{totalCopies}</b>
+                Копий на печать: <b>{totalCopies}</b>
               </p>
               <p>
-                Копий в приладку: <b>{extraCopies}</b>
+                Бонусные копии: <b>{extraCopies}</b>
               </p>
             </div>
             <div className={styles.col}>
@@ -37,7 +37,7 @@ const CalculationResult: React.FC<CalculationResultProps> = ({
                 Тираж всех изделий: <b>{totalItemsCount}</b>
               </p>
               <p>
-                Итого изделий в плюс: <b>{remainingItems}</b>
+                Сверхтираж всех изделий: <b>{remainingItems}</b>
               </p>
             </div>
           </div>

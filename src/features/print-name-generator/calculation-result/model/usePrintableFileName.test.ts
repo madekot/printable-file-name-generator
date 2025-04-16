@@ -27,11 +27,14 @@ describe("usePrintableFileName", () => {
     const variants: Variant[] = [{ id: 1, itemsPerSheet: 50, numLabels: 1, totalQuantity: 100 }];
     const maxCopies = 5;
 
-    const { rerender } = renderHook(
+    (usePrintJobStore as unknown as jest.Mock).mockReturnValue({
+      orderName: "Order1",
+      isOrderNameVisible: true,
+    });
+
+    const { result, rerender } = renderHook(
       ({ orderName }) => {
         (usePrintJobStore as unknown as jest.Mock).mockReturnValue({
-          setPrintableFileName,
-          printableFileName: "",
           orderName,
           isOrderNameVisible: true,
         });
@@ -41,14 +44,14 @@ describe("usePrintableFileName", () => {
       { initialProps: { orderName: "Order1" } }
     );
 
-    expect(setPrintableFileName).toHaveBeenCalledWith(
-      "Order1 (100 шт. тираж + 150 шт. сверхтираж) 5 копий на печать"
+    expect(result.current).toBe(
+      "Order1 (100\u00A0шт.\u00A0тираж\u00A0+\u00A0150\u00A0шт.\u00A0сверхтираж) 5\u00A0копий\u00A0на\u00A0печать"
     );
 
     rerender({ orderName: "Order2" });
 
-    expect(setPrintableFileName).toHaveBeenCalledWith(
-      "Order2 (100 шт. тираж + 150 шт. сверхтираж) 5 копий на печать"
+    expect(result.current).toBe(
+      "Order2 (100\u00A0шт.\u00A0тираж\u00A0+\u00A0150\u00A0шт.\u00A0сверхтираж) 5\u00A0копий\u00A0на\u00A0печать"
     );
   });
 
@@ -56,11 +59,9 @@ describe("usePrintableFileName", () => {
     const variants: Variant[] = [{ id: 1, itemsPerSheet: 50, numLabels: 1, totalQuantity: 100 }];
     const maxCopies = 5;
 
-    const { rerender } = renderHook(
+    const { result } = renderHook(
       ({ orderName }) => {
         (usePrintJobStore as unknown as jest.Mock).mockReturnValue({
-          setPrintableFileName,
-          printableFileName: "",
           orderName,
           isOrderNameVisible: false,
         });
@@ -70,14 +71,8 @@ describe("usePrintableFileName", () => {
       { initialProps: { orderName: "Order1" } }
     );
 
-    expect(setPrintableFileName).toHaveBeenCalledWith(
-      "(100 шт. тираж + 150 шт. сверхтираж) 5 копий на печать"
-    );
-
-    rerender({ orderName: "Order2" });
-
-    expect(setPrintableFileName).toHaveBeenCalledWith(
-      "(100 шт. тираж + 150 шт. сверхтираж) 5 копий на печать"
+    expect(result.current).toBe(
+      "(100\u00A0шт.\u00A0тираж\u00A0+\u00A0150\u00A0шт.\u00A0сверхтираж) 5\u00A0копий\u00A0на\u00A0печать"
     );
   });
 });
